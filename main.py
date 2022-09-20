@@ -3,7 +3,8 @@ from tkinter import Tk, Frame, Menu, messagebox, Text, Button, Label, filedialog
 from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import Scrollbar
 
-from aSintactico import analizar
+from Traductor.Traductor import Traductor
+from aSintactico import analizar, analizarC3D
 from Recolector.Recolector import recolector
 import codecs
 
@@ -39,6 +40,9 @@ class Ventana:
 
         self.btnAnalizar = Button(self.frmAnalisis, text='Analizar', width=10, command=self.fncAnalizar)
         self.btnAnalizar.grid(row=0, column=2, pady=80, sticky='N')
+
+        self.btnC3D = Button(self.frmAnalisis, text='C3D', width=10, command=self.fncC3D)
+        self.btnC3D.grid(row=0, column=2, pady=140, sticky='N')
 
 
         self.txtSalida = Text(self.frmAnalisis, width=72, height=13, wrap=NONE, borderwidth=0)
@@ -103,6 +107,15 @@ class Ventana:
         recolector.clear()
         #print(f"Errores encontrrados{Error.Errores.lerrores}")
         # self.txtSalida.insert(tkinter.END, txt)
+
+    def fncC3D(self):
+        self.txtSalida.delete(1.0, tkinter.END)
+        txt = self.txtEntrada.get('1.0', 'end-1c')
+        entornoC3D = Traductor()
+        analizarC3D(txt, entornoC3D)
+        self.txtSalida.insert(INSERT, entornoC3D.obtenerTraduccion())
+
+
 
     @staticmethod
     def acerca_de():
