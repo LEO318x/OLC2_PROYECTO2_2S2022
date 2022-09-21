@@ -1,5 +1,5 @@
 # from Tipo import TIPO_DATO
-from Simbolo.Simbolo import Simbolo
+from Simbolo.Simbolo import Simbolo, C3D_Simbolo
 
 
 class Entorno:
@@ -9,6 +9,8 @@ class Entorno:
         self.funciones = dict()
         self.estructuras = dict()
         self.anterior = anterior
+        # Entorno para C3D
+        self.c3d_variables = {}
 
     def guardar(self, id, valor, tipo, mutable):
         env = self
@@ -101,3 +103,26 @@ class Entorno:
         while env.anterior != None:
             env = env.anterior
         return env
+
+    # Metodos para C3D
+    def c3d_guardar_var(self, id, valor, tipo, posicion, tamanio):
+        env = self
+        # print(f'Env->{id, valor, tipo}')
+        while env != None:
+            if id in env.c3d_variables:
+                # if mutable:
+                env.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, posicion, tamanio)})
+                # else:
+                # print(f'Err_Ent: La variable {id} no es mutable, no se puede modificar')
+                return
+            env = env.anterior
+        self.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, posicion, tamanio)})
+        # print(f'Ent_var: {self.variables}')
+
+    def c3d_getVar(self, id):
+        env = self
+        while env != None:
+            if id in env.c3d_variables:
+                return env.c3d_variables.get(id)
+            env = env.anterior
+        return None

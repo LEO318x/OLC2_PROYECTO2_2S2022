@@ -78,48 +78,48 @@ class Aritmetica(Expresion):
             resultado = Retorno(0, TIPO_DATO.INTEGER)
         return resultado
 
-    def traducir(self, entorno, entornoC3D):
+    def traducir(self, entorno, C3D):
         if self.unaria:
             expr = self.exprDer.ejecutar(entorno)
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = -1;')
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = t{t_actual-1} * {expr.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = -1;')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = t{t_actual - 1} * {expr.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
-        valorIzq = self.exprIzq.traducir(entorno, entornoC3D)
-        valorDer = self.exprDer.traducir(entorno, entornoC3D)
+        valorIzq = self.exprIzq.traducir(entorno, C3D)
+        valorDer = self.exprDer.traducir(entorno, C3D)
 
         if TIPO_OPERACION.SUMA == self.tipo_operacion:
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} + {valorDer.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} + {valorDer.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
         elif TIPO_OPERACION.RESTA == self.tipo_operacion:
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} - {valorDer.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} - {valorDer.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
         elif TIPO_OPERACION.MULTI == self.tipo_operacion:
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} * {valorDer.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} * {valorDer.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
         elif TIPO_OPERACION.DIV == self.tipo_operacion:
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} / {valorDer.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} / {valorDer.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
         elif TIPO_OPERACION.MOD == self.tipo_operacion:
-            t_actual = entornoC3D.getT()
-            entornoC3D.sumarT()
-            entornoC3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} % {valorDer.valor};')
+            t_actual = C3D.getT()
+            C3D.sumarT()
+            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} % {valorDer.valor};')
             return Retorno(f't{t_actual}', TIPO_DATO.FLOAT)
 
 

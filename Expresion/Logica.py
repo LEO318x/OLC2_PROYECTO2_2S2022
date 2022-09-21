@@ -25,3 +25,16 @@ class Logica(Expresion):
         elif TIPO_LOGICO.OR == self.tipo_operacion:
             resultado = Retorno(valorIzq.valor or valorDer.valor, TIPO_DATO.BOOL)
             return resultado
+
+    def traducir(self, entorno, C3D):
+        valorIzq = self.exprIzq.traducir(entorno)
+        valorDer = self.exprDer.traducir(entorno)
+
+        if TIPO_LOGICO.AND == self.tipo_operacion:
+            resultado = Retorno(valorIzq.valor and valorDer.valor, TIPO_DATO.BOOL)
+            return resultado
+        elif TIPO_LOGICO.OR == self.tipo_operacion:
+            t_actual = C3D.getT()
+            C3D.agregarTraduccion(f'if (t{t_actual}) goto')
+            resultado = Retorno(valorIzq.valor or valorDer.valor, TIPO_DATO.BOOL)
+            return resultado

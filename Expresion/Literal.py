@@ -56,7 +56,7 @@ class Literal(Expresion):
                 return Retorno(self.valor, TIPO_DATO.CHAR)
         elif self.tipo == TIPO_DATO.BOOL:
             if self.valor == 'true':
-                self.valor = True
+                self.valor = 1
             elif self.valor == 'false':
-                self.valor = False
+                self.valor = 0
             return Retorno(self.valor, TIPO_DATO.BOOL)

@@ -71,38 +71,26 @@ class Print(Instruccion):
         tmp += "]"
         return tmp
 
-    def traducir(self, entorno, entornoC3D):
+    def traducir(self, entorno, C3D):
         for expresion in self.lexpresion:
-            tmp_expre = expresion.traducir(entorno, entornoC3D)
+            tmp_expre = expresion.traducir(entorno, C3D)
+            print(f'c3d_print: {tmp_expre}')
             if tmp_expre.tipo == TIPO_DATO.RSTR or tmp_expre.tipo == TIPO_DATO.STRING:
-                tamanio = len(tmp_expre.valor)
-                p = entornoC3D.getS()
-                h = entornoC3D.getH()
-
-                t = entornoC3D.getT()
-                entornoC3D.sumarT()
-                entornoC3D.agregarTraduccion(f't{t} =  H;')
-                entornoC3D.agregarTraduccion(f'stack[(int) P] = H;')
-                entornoC3D.agregarTraduccion(f'P = P + 1;')
-                entornoC3D.sumarS()
-                for e in tmp_expre.valor:
-                    h = entornoC3D.getH()
-                    entornoC3D.agregarTraduccion(f'heap[(int) H] = {ord(e)};')
-                    entornoC3D.agregarTraduccion(f'H = H + 1;')
-                    entornoC3D.sumarH()
-                    print(ord(e))
-                entornoC3D.agregarTraduccion(f'heap[(int) H] = 10;')
-                entornoC3D.agregarTraduccion(f'H = H + 1;')
-                entornoC3D.agregarTraduccion(f'heap[(int) H] = -1;')
-                entornoC3D.agregarTraduccion(f'H = H + 1;')
-                entornoC3D.sumarH()
-                entornoC3D.agregarTraduccion(f'stack[(int)P] = t{t};')
-                entornoC3D.agregarTraduccion(f'imprimir();')
+                t = C3D.getT()
+                C3D.setCadenaTraduccion(tmp_expre.valor)
+                C3D.agregarTraduccion(f'stack[(int)P] = t{t};')
+                C3D.agregarTraduccion(f'imprimir();')
+                C3D.agregarTraduccion(f'printf("%c", (int)10);')
+                C3D.agregarTraduccion(f'printf("%c", (int)13);')
             elif tmp_expre.tipo == TIPO_DATO.INTEGER:
                 print(f'print_c3d: {tmp_expre.tipo}')
-                entornoC3D.agregarTraduccion(f'printf("%d",{str(tmp_expre.valor)});')
+                C3D.agregarTraduccion(f'printf("%d",{str(tmp_expre.valor)});')
+                C3D.agregarTraduccion(f'printf("%c", (int)10);')
+                C3D.agregarTraduccion(f'printf("%c", (int)13);')
             elif tmp_expre.tipo == TIPO_DATO.FLOAT:
                 print(f'print_c3d: {tmp_expre.tipo}')
-                entornoC3D.agregarTraduccion(f'printf("%f",{str(tmp_expre.valor)});')
+                C3D.agregarTraduccion(f'printf("%f",{str(tmp_expre.valor)});')
+                C3D.agregarTraduccion(f'printf("%c", (int)10);')
+                C3D.agregarTraduccion(f'printf("%c", (int)13);')
             #print(f'print_c3d: {tmp_expre.valor}')
         return None

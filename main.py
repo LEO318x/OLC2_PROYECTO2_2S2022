@@ -4,7 +4,7 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import Scrollbar
 
 from Traductor.Traductor import Traductor
-from aSintactico import analizar, analizarC3D
+from aSintactico import analizar, traducirC3D
 from Recolector.Recolector import recolector
 import codecs
 
@@ -103,7 +103,7 @@ class Ventana:
         txt = self.txtEntrada.get('1.0', 'end-1c')
         analizar(txt)
         for salida in recolector:
-            self.txtSalida.insert(INSERT, salida+"\n")
+            self.txtSalida.insert(INSERT, str(salida)+"\n")
         recolector.clear()
         #print(f"Errores encontrrados{Error.Errores.lerrores}")
         # self.txtSalida.insert(tkinter.END, txt)
@@ -111,9 +111,9 @@ class Ventana:
     def fncC3D(self):
         self.txtSalida.delete(1.0, tkinter.END)
         txt = self.txtEntrada.get('1.0', 'end-1c')
-        entornoC3D = Traductor()
-        analizarC3D(txt, entornoC3D)
-        self.txtSalida.insert(INSERT, entornoC3D.obtenerTraduccion())
+        C3D = Traductor()
+        traducirC3D(txt, C3D)
+        self.txtSalida.insert(INSERT, C3D.obtenerTraduccion())
 
 
 

@@ -20,3 +20,7 @@ class Acceso(Expresion):
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
             print(f'Error_Acc, la variable "{self.id}" no existe')
             return None
+
+    def traducir(self, entorno, C3D):
+        valor = entorno.c3d_getVar(self.id)
+        return Retorno(valor.valor, valor.tipo)

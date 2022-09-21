@@ -12,3 +12,6 @@ class Asignacion(Instruccion):
         val = self.valor.ejecutar(entorno)
         #print(f'Asig: {self.valor}')
         entorno.asignar_var(self.id, val.valor, val.tipo)
+
+    def traducir(self, entorno, entornoC3D):
+        val = self.valor.traducir(entorno, entornoC3D)

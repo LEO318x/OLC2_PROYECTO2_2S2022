@@ -88,10 +88,10 @@ def p_instrucciones_globales(t):
                               | fnwretst'''
     t[0] = t[1]
 
+
 def p_instruccion_main(t):
     '''fnmain : FN MAIN IPAR DPAR ILLAVE instrucciones_main DLLAVE'''
     t[0] = Main(t.lineno(1), find_column(input, t.slice[1]), t[6])
-
 
 
 def p_lista_instrucciones_main(t):
@@ -99,9 +99,11 @@ def p_lista_instrucciones_main(t):
     t[1].append(t[2])
     t[0] = t[1]
 
+
 def p_instrucciones_instruccion_main(t):
     'instrucciones_main : instruccion'
     t[0] = [t[1]]
+
 
 def p_instruccion(t):
     '''instruccion : declaracion
@@ -136,12 +138,14 @@ def p_declaracion_mut(t):
 
 def p_declaracion_struct_mut(t):
     '''declaracion : LET MUT ID IGUAL ID ILLAVE  strattrexpre DLLAVE PTOCOMA'''
-    t[0] = Declaracion(t[3], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[5], t[7]), True, t.lineno(4), find_column(input, t.slice[4]))
+    t[0] = Declaracion(t[3], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[5], t[7]), True, t.lineno(4),
+                       find_column(input, t.slice[4]))
 
 
 def p_declaracion_struct(t):
     '''declaracion : LET ID IGUAL ID ILLAVE  strattrexpre DLLAVE PTOCOMA'''
-    t[0] = Declaracion(t[2], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[4], t[6]), False, t.lineno(3), find_column(input, t.slice[3]))
+    t[0] = Declaracion(t[2], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[4], t[6]), False, t.lineno(3),
+                       find_column(input, t.slice[3]))
 
 
 def p_strattrexpre(t):
@@ -187,17 +191,20 @@ def p_declaracion_con_tipo_mut(t):
 
 def p_declaracion_con_tipo_struct_mut(t):
     '''declaracion_con_tipo : LET MUT ID DOSPTOS tipo_dato IGUAL ID ILLAVE  strattrexpre DLLAVE PTOCOMA'''
-    t[0] = Declaracion_Tipo(t[3], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[7], t[9]), t[5], True, t.lineno(1), find_column(input, t.slice[1]))
+    t[0] = Declaracion_Tipo(t[3], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[7], t[9]), t[5], True,
+                            t.lineno(1), find_column(input, t.slice[1]))
 
 
 def p_declaracion_con_tipo_struct(t):
     '''declaracion_con_tipo : LET ID DOSPTOS tipo_dato IGUAL ID ILLAVE  strattrexpre DLLAVE PTOCOMA'''
-    t[0] = Declaracion_Tipo(t[2], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[6], t[8]), t[4], False, t.lineno(1), find_column(input, t.slice[1]))
+    t[0] = Declaracion_Tipo(t[2], NewStruct(t.lineno(1), find_column(input, t.slice[1]), t[6], t[8]), t[4], False,
+                            t.lineno(1), find_column(input, t.slice[1]))
 
 
 def p_structasig(t):
     '''structasig : lsacceso IGUAL expresion PTOCOMA'''
     t[0] = AsignacionStruct(t.lineno(2), find_column(input, t.slice[2]), t[1], t[3])
+
 
 def p_lstasig(t):
     '''lsacceso : lsacceso PUNTO ID '''
@@ -209,6 +216,7 @@ def p_lsasigo(t):
     '''lsacceso : ID PUNTO ID'''
     t[0] = [t[1], t[3]]
 
+
 def p_tipo_dato(t):
     '''tipo_dato : I64
                  | F64
@@ -219,7 +227,7 @@ def p_tipo_dato(t):
                  | BOOL
                  | ID'''
 
-    #t[0] = BuscarTipo(t.lineno(1), find_column(input, t.slice[1]), t[1])
+    # t[0] = BuscarTipo(t.lineno(1), find_column(input, t.slice[1]), t[1])
     tipo = ""
     match t[1]:
         case 'i64':
@@ -265,6 +273,7 @@ def p_asignacion(t):
 def p_asignacionarr(t):
     '''asignacion : expresion ICOR expresion DCOR IGUAL expresion PTOCOMA'''
     t[0] = AsignarArreglo(t.lineno(2), find_column(input, t.slice[2]), t[1], t[3], t[6])
+
 
 def p_ifst(t):
     '''ifst : IF expresion st elsest'''
@@ -401,7 +410,7 @@ def p_strattro(t):
 
 def p_strattr(t):
     '''strattr : ID DOSPTOS tipo_dato'''
-    #print(f'gstr: {t[3]}')
+    # print(f'gstr: {t[3]}')
     t[0] = {t[1]: Retorno('', t[3])}
 
 
@@ -409,10 +418,12 @@ def p_vectoresdef(t):
     '''instrvec : VECD NOT ICOR lsexprev DCOR'''
     t[0] = NuevoVector(t.lineno(1), find_column(input, t.slice[1]), t[4])
 
+
 def p_lsexprev(t):
     '''lsexprev : lsexprev COMA expresion'''
     t[1].append(t[3])
     t[0] = t[1]
+
 
 def p_lsexprevo(t):
     '''lsexprev : expresion'''
@@ -476,6 +487,7 @@ def p_expresion_unaria(t):
 def p_expresion_agrupacion(t):
     'expresion : IPAR expresion DPAR'
     t[0] = t[2]
+
 
 def p_arregloacceso(t):
     '''expresion : expresion ICOR expresion DCOR'''
@@ -591,6 +603,7 @@ def p_expresion_removev(t):
     '''expresion : expresion PUNTO REMOVE IPAR expresion DPAR'''
     t[0] = RemoveVector(t.lineno(3), find_column(input, t.slice[3]), t[1], t[5])
 
+
 def p_expresion_containsv(t):
     '''expresion : expresion PUNTO CONTAINS IPAR expresion DPAR'''
     t[0] = ContainsVector(t.lineno(3), find_column(input, t.slice[3]), t[1], t[5])
@@ -604,7 +617,7 @@ def p_instr_insertv(t):
 def p_array(t):
     '''expresion : ICOR laexpre DCOR'''
     t[0] = NuevoArreglo(t.lineno(1), find_column(input, t.slice[1]), t[2])
-    #t[0] = NuevoArreglo(t.lineno(1), find_column(input, t.slice[1]), t[2])
+    # t[0] = NuevoArreglo(t.lineno(1), find_column(input, t.slice[1]), t[2])
 
 
 def p_lexpre(t):
@@ -664,7 +677,7 @@ parser = yacc.yacc()
 
 
 def analizar(entrada):
-    #print(f'{entrada}')
+    # print(f'{entrada}')
     input = entrada
     resultado = parser.parse(input)
     env = Entorno("Global", None)
@@ -673,12 +686,14 @@ def analizar(entrada):
     generarReporteSimbolos()
     generarReporteErrores()
 
-def analizarC3D(entrada, entornoC3D):
+
+def traducirC3D(entrada, C3D):
     input = entrada
     resultado = parser.parse(input)
     env = Entorno("Global", None)
     for i in resultado:
-        i.traducir(env, entornoC3D)
+        i.traducir(env, C3D)
+
 
 if __name__ == '__main__':
     f = open("./entrada1.txt", "r")

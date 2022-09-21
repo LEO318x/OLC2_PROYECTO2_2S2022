@@ -1,8 +1,9 @@
 class Traductor:
     def __init__(self):
-        self.cont_t = 3
-        self.cont_s = 0
-        self.cont_h = 0
+        self.T = 3
+        self.S = 0
+        self.H = 0
+        self.L = 2
 
         self.encabezado = """
 #include <stdio.h>
@@ -33,7 +34,7 @@ int main(){
     H = 0;
 """
         self.cuerpo_instrucciones = ""
-        self.cuerpo_fin = "}"
+        self.cuerpo_fin = "\n return 0; \n }"
 
     def agregarTraduccion(self, txt):
         self.cuerpo_instrucciones += txt + '\n'
@@ -44,29 +45,64 @@ int main(){
         return unirTraduccion
 
     def generarT(self):
-        for i in range(0, self.cont_t):
-            if i == self.cont_t - 1:
+        for i in range(0, self.T):
+            if i == self.T - 1:
                 self.valores_t += f't{i};'
             else:
                 self.valores_t += f't{i}, '
 
     def sumarT(self):
-        self.cont_t += 1
+        self.T += 1
 
     def getT(self):
-        return self.cont_t
+        return self.T
+
+    def getNuevoT(self):
+        self.T += 1
+        return self.T
 
     def sumarS(self):
-        self.cont_s += 1
+        self.S += 1
 
     def getS(self):
-        return self.cont_s
+        return self.S
 
     def sumarH(self):
-        self.cont_h += 1
+        self.H += 1
 
     def getH(self):
-        return self.cont_h
+        return self.H
+
+    def getL(self):
+        return self.L
+
+    def sumarL(self):
+        self.L += 1
+
+    def getNuevoL(self):
+        self.L += 1
+        return self.L
+
+    def setCadenaTraduccion(self, txt):
+        tamanio = len(txt)
+        p = self.getS()
+        h = self.getH()
+
+        t = self.getT()
+        self.sumarT()
+        self.agregarTraduccion(f't{t} =  H;')
+        self.agregarTraduccion(f'stack[(int) P] = H;')
+        self.agregarTraduccion(f'P = P + 1;')
+        self.sumarS()
+        for e in txt:
+            h = self.getH()
+            self.agregarTraduccion(f'heap[(int) H] = {ord(e)};')
+            self.agregarTraduccion(f'H = H + 1;')
+            self.sumarH()
+            print(ord(e))
+        self.agregarTraduccion(f'heap[(int) H] = -1;')
+        self.agregarTraduccion(f'H = H + 1;')
+        self.sumarH()
 
 if __name__ == '__main__':
     print("------------------------")
