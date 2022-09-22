@@ -673,6 +673,13 @@ def analizar(entrada):
     generarReporteSimbolos()
     generarReporteErrores()
 
+def traducirC3D(entrada, C3D):
+    input = entrada
+    resultado = parser.parse(input)
+    env = Entorno("Global", None)
+    for i in resultado:
+        i.traducir(env, C3D)
+
 if __name__ == '__main__':
     f = open("./entrada1.txt", "r")
 

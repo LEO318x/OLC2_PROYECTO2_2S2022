@@ -70,3 +70,10 @@ class Print(Instruccion):
 
         tmp += "]"
         return tmp
+
+    def traducir(self, entorno, C3D):
+        for expresion in self.lexpresion:
+            tmp_expre = expresion.traducir(entorno, C3D)
+            print(f'c3d_print: {tmp_expre}')
+            C3D.comentario("Impresion")
+            C3D.agregar_print("f", tmp_expre.valor)

@@ -9,3 +9,7 @@ class Main(Instruccion):
     def ejecutar(self, entorno):
         for m in self.linstrucciones:
             m.ejecutar(entorno)
+
+    def traducir(self, entorno, C3D):
+        for m in self.linstrucciones:
+            m.traducir(entorno, C3D)
