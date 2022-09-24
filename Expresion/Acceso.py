@@ -2,6 +2,7 @@ from Abstract.Expresion import Expresion
 from Abstract.Retorno import Retorno
 from Error.Error import Error
 from Reporte.Reportes import lerrores
+from Simbolo.Simbolo import C3D_Value
 
 
 class Acceso(Expresion):
@@ -16,6 +17,20 @@ class Acceso(Expresion):
         if valor is not None:
             #print(f'Acc_Eje: {valor}')
             return Retorno(valor.valor, valor.tipo)
+        else:
+            lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
+            print(f'Error_Acc, la variable "{self.id}" no existe')
+            return None
+
+    def traducir(self, entorno, C3D):
+        #print(f'id: {self.id}')
+        valor = entorno.c3d_getVar(self.id)
+        #print(f'Eje_Acc: {valor}, id: {self.id}')
+        if valor is not None:
+            #print(f'Acc_Eje: {valor}')
+            nueva_t = C3D.nueva_temporal()
+            C3D.agregar_getstack(nueva_t, valor.posicion)
+            return C3D_Value(nueva_t, False, valor.tipo, "", "")
         else:
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
             print(f'Error_Acc, la variable "{self.id}" no existe')

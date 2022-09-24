@@ -7,6 +7,7 @@ from Recolector.Recolector import recolector
 from Simbolo import Arreglo
 from Simbolo import Vector
 
+
 class Print(Instruccion):
 
     def __init__(self, fila, columna, lexpression):
@@ -18,14 +19,15 @@ class Print(Instruccion):
         tmplsaux = self.lexpresion.copy()
         if len(tmpls) > 1:
             tmpexpr = tmpls[0].ejecutar(entorno)
-            #print(f'imp_eje: {tmpexpr.valor}')
+            # print(f'imp_eje: {tmpexpr.valor}')
             if "{}" in tmpexpr.valor or "{:?}" in tmpexpr.valor:
                 del tmpls[0]
                 tmpprint = tmpexpr.valor
                 lstemp = []
                 for expresion in tmpls:
                     valor = expresion.ejecutar(entorno)
-                    if isinstance(valor.valor, Simbolo.Arreglo.Arreglo) or isinstance(valor.valor, Simbolo.Vector.Vector):
+                    if isinstance(valor.valor, Simbolo.Arreglo.Arreglo) or isinstance(valor.valor,
+                                                                                      Simbolo.Vector.Vector):
                         lstemp.append(self.imprimirArregloVector(valor.valor))
                     else:
                         lstemp.append(valor.valor)
@@ -35,8 +37,10 @@ class Print(Instruccion):
                     recolector.append(str(tmpprint))
                     print(f'{tmpprint}')
                 except:
-                    lerrores.append(Error(self.fila, self.columna, entorno.nombre, f'Error_Print: ¿¿¿Misma cantidad de expresiones y ' + "{}{:?} o tipo dato no coincide con {}{:?} ???"))
-                    print(f'Error_Print: ¿¿¿Misma cantidad de expresiones y', "{}{:?} o tipo dato no coincide con {}{:?} ???")
+                    lerrores.append(Error(self.fila, self.columna, entorno.nombre,
+                                          f'Error_Print: ¿¿¿Misma cantidad de expresiones y ' + "{}{:?} o tipo dato no coincide con {}{:?} ???"))
+                    print(f'Error_Print: ¿¿¿Misma cantidad de expresiones y',
+                          "{}{:?} o tipo dato no coincide con {}{:?} ???")
             else:
                 lerrores.append(Error(self.fila, self.columna, entorno.nombre, f'imp_error: Falta', "{} {:?}"))
                 print(f'imp_error: Falta', "{} {:?}")
@@ -44,7 +48,8 @@ class Print(Instruccion):
             for expresion in tmpls:
                 valor = expresion.ejecutar(entorno)
                 if valor.tipo != TIPO_DATO.STRUCT:
-                    if isinstance(valor.valor, Simbolo.Arreglo.Arreglo) or isinstance(valor.valor, Simbolo.Vector.Vector):
+                    if isinstance(valor.valor, Simbolo.Arreglo.Arreglo) or isinstance(valor.valor,
+                                                                                      Simbolo.Vector.Vector):
                         recolector.append(self.imprimirArregloVector(valor.valor))
                         print(f"{self.imprimirArregloVector(valor.valor)}")
                     else:
@@ -74,6 +79,41 @@ class Print(Instruccion):
     def traducir(self, entorno, C3D):
         for expresion in self.lexpresion:
             tmp_expre = expresion.traducir(entorno, C3D)
-            print(f'c3d_print: {tmp_expre}')
+            print(f'c3d_print: {tmp_expre} valor: {tmp_expre.valor} tipo: {tmp_expre.tipo}')
             C3D.comentario("Impresion")
-            C3D.agregar_print("f", tmp_expre.valor)
+            if tmp_expre.tipo == TIPO_DATO.BOOL:
+                etiqueta = C3D.nuevo_label()
+                etiqueta2 = C3D.nuevo_label()
+                etiquetasal = C3D.nuevo_label()
+
+                C3D.agregar_if(tmp_expre.valor, 1, "==", etiqueta)
+                C3D.agregar_goto(etiqueta2)
+                C3D.agregar_label(etiqueta)
+                C3D.agregar_codigo("print_true_proc();")
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')
+                C3D.agregar_goto(etiquetasal)
+                C3D.agregar_label(etiqueta2)
+                C3D.agregar_codigo("print_false_proc();")
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')
+                C3D.agregar_label(etiquetasal)
+
+            elif tmp_expre.tipo == TIPO_DATO.INTEGER:
+                C3D.agregar_print("d", f'(int) {tmp_expre.valor}')
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')
+            elif tmp_expre.tipo == TIPO_DATO.FLOAT:
+                C3D.agregar_print("f", f'{tmp_expre.valor}')
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')
+            elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
+                print(f'c3d_print_valor: {tmp_expre.valor}')
+                C3D.agregar_codigo(f'stack[(int)P] = {tmp_expre.valor};')
+                C3D.agregar_codigo(f'imprimir();')
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')
+            elif tmp_expre.tipo == TIPO_DATO.CHAR:
+                C3D.agregar_print("c", f'(int) {tmp_expre.valor}')
+                C3D.agregar_codigo(f'printf("%c", (int)10);')
+                C3D.agregar_codigo(f'printf("%c", (int)13);')

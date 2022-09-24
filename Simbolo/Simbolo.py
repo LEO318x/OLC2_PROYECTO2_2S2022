@@ -16,9 +16,9 @@ class C3D_Simbolo:
 
 
 class C3D_Value:
-    def __init__(self, value, temp, tipo, true_label, false_label):
+    def __init__(self, value, istemp, tipo, true_label, false_label):
         self.valor = value
-        self.istemp = temp
+        self.istemp = istemp
         self.tipo = tipo
         self.true_label = true_label
         self.false_label = false_label

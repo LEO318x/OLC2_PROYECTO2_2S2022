@@ -1,5 +1,6 @@
 from Abstract.Expresion import Expresion
 from Abstract.Retorno import Retorno
+from Simbolo.Simbolo import C3D_Value
 from Simbolo.Tipo import TIPO_RELACIONAL, TIPO_DATO, TIPO_LOGICO
 
 
@@ -25,3 +26,21 @@ class Logica(Expresion):
         elif TIPO_LOGICO.OR == self.tipo_operacion:
             resultado = Retorno(valorIzq.valor or valorDer.valor, TIPO_DATO.BOOL)
             return resultado
+
+    def traducir(self, entorno, C3D):
+
+        # valorIzqt = self.exprIzq.traducir(entorno, C3D)
+        # valorDert = self.exprDer.traducir(entorno, C3D)
+        # print(f'Logica | Valor, Izq: {valorIzqt.valor} Der: {valorDert.valor}')
+        if self.tipo_operacion == TIPO_LOGICO.OR:
+            valorIzq = self.exprIzq.traducir(entorno, C3D)
+            C3D.agregar_label(valorIzq.false_label)
+            valorDer = self.exprDer.traducir(entorno, C3D)
+            return C3D_Value("", False, TIPO_DATO.BOOL, f'{valorIzq.true_label}:{valorDer.true_label}', valorDer.false_label)
+
+
+            # if bool(valorIzq.valor) or bool(valorDer.valor):
+            #     print(f'Logica | Valor, Izq: {valorIzq.valor} Der: {valorDer.valor}')
+            #     return C3D_Value(1, False, TIPO_DATO.BOOL, verdadero, falso)
+            # else:
+            #     return C3D_Value(0, False, TIPO_DATO.BOOL, verdadero, falso)
