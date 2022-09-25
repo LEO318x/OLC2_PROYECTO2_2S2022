@@ -41,11 +41,11 @@ class Literal(Expresion):
     def traducir(self, entorno, C3D):
         # print(f'----->{self.tipo}')
         if self.tipo == TIPO_DATO.INTEGER:
-            return C3D_Value(self.valor, False, TIPO_DATO.INTEGER, None, None)
+            return C3D_Value(str(self.valor), False, TIPO_DATO.INTEGER, None, None)
         elif self.tipo == TIPO_DATO.FLOAT:
-            return C3D_Value(self.valor, False, TIPO_DATO.FLOAT, None, None)
+            return C3D_Value(str(self.valor), False, TIPO_DATO.FLOAT, None, None)
         elif self.tipo == TIPO_DATO.STRING:
-            return C3D_Value(self.valor, False, TIPO_DATO.STRING, None, None)
+            return C3D_Value(str(self.valor), False, TIPO_DATO.STRING, None, None)
         elif self.tipo == TIPO_DATO.RSTR:
             return C3D_Value(self.valor, False, TIPO_DATO.RSTR, None, None)
         elif self.tipo == TIPO_DATO.CHAR:
@@ -57,10 +57,12 @@ class Literal(Expresion):
             else:
                 return C3D_Value(self.valor, False, TIPO_DATO.CHAR, None, None)
         elif self.tipo == TIPO_DATO.BOOL:
+            print(f'Literal Booleana')
             truelabel = C3D.nuevo_label()
             falselabel = C3D.nuevo_label()
             if self.valor == 'true':
+                # C3D.agregar_goto(truelabel)
                 return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
             elif self.valor == 'false':
-                self.valor = False
+                # C3D.agregar_goto(falselabel)
                 return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)

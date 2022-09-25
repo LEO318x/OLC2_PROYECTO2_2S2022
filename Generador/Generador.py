@@ -79,9 +79,7 @@ class Generador:
         self.codigo.append(f'printf("%{tipo_print}", {value});')
 
     def comentario(self, txt):
-        self.codigo.append(f'/***')
-        self.codigo.append(f'* {txt}')
-        self.codigo.append(f'***/')
+        self.codigo.append(f'//|-->{txt}<--|')
 
     def nativa_imprimir(self):
         txt = "void imprimir(){\n"

@@ -33,12 +33,25 @@ class Logica(Expresion):
         # valorDert = self.exprDer.traducir(entorno, C3D)
         # print(f'Logica | Valor, Izq: {valorIzqt.valor} Der: {valorDert.valor}')
         if self.tipo_operacion == TIPO_LOGICO.OR:
+            C3D.comentario("Inicio OR")
             valorIzq = self.exprIzq.traducir(entorno, C3D)
             C3D.agregar_label(valorIzq.false_label)
             valorDer = self.exprDer.traducir(entorno, C3D)
-            return C3D_Value("", False, TIPO_DATO.BOOL, f'{valorIzq.true_label}:{valorDer.true_label}', valorDer.false_label)
-
-
+            C3D.comentario("Fin OR")
+            return C3D_Value("", False, TIPO_DATO.BOOL, f'{valorIzq.true_label}:\n{valorDer.true_label}', valorDer.false_label)
+        elif self.tipo_operacion == TIPO_LOGICO.AND:
+            C3D.comentario("Inicio AND")
+            valorIzq = self.exprIzq.traducir(entorno, C3D)
+            C3D.agregar_label(valorIzq.true_label)
+            valorDer = self.exprDer.traducir(entorno, C3D)
+            C3D.comentario("Fin AND")
+            return C3D_Value("", False, TIPO_DATO.BOOL, f'{valorDer.true_label}', f'{valorIzq.false_label}:\n{valorDer.false_label}')
+        elif self.tipo_operacion == TIPO_LOGICO.NOT:
+            C3D.comentario("Inicio NOT")
+            valorDer = self.exprDer.traducir(entorno, C3D)
+            print(f'Logica_Not | Valor, Der: {valorDer.valor}, true{valorDer.true_label}, false{valorDer.false_label}')
+            C3D.comentario("Fin NOT")
+            return C3D_Value("", False, TIPO_DATO.BOOL, f'{valorDer.false_label}', f'{valorDer.true_label}')
             # if bool(valorIzq.valor) or bool(valorDer.valor):
             #     print(f'Logica | Valor, Izq: {valorIzq.valor} Der: {valorDer.valor}')
             #     return C3D_Value(1, False, TIPO_DATO.BOOL, verdadero, falso)

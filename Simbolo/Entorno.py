@@ -126,3 +126,26 @@ class Entorno:
                 return env.c3d_variables.get(id)
             env = env.anterior
         return None
+
+    # def c3d_asignar_var(self, id, valor, tipo):
+    #     env = self
+    #     # print(f'Env_AsigVar->{id, valor, tipo}')
+    #     while env is not None:
+    #         if id in env.c3d_variables:
+    #             tmpvar = env.c3d_variables.get(id)
+    #             is_mut = True #Se modifico son mutables
+    #             # print(f'Env_AsigVar->{tmpvar.tipo}')
+    #             if is_mut:
+    #                 env.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, tmpvar.posicion, tmpvar.tamanio)})
+    #                 return
+    #             else:
+    #                 print(f'Err_Ent_AsigVar: La variable "{id}" no es mutable, no se puede modificar!')
+    #                 return
+    #             # print(f'{env.variables.get(id).mutable}')
+    #         # else:
+    #         # print(f'Err_Ent_Asig: La variable no existe')
+    #         env = env.anterior
+    #     if env is None:
+    #         print(f'Err_Ent_Asig: La variable no existe')
+    #         return
+    #         # print(f'Ent_var: {self.variables}')

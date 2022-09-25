@@ -53,6 +53,7 @@ class Relacional(Expresion):
 
         elif TIPO_RELACIONAL.MENOR == self.tipo_operacion:
             temp = C3D.nueva_temporal()
+
             truelabel = C3D.nuevo_label()
             falselabel = C3D.nuevo_label()
 

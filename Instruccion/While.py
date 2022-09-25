@@ -31,3 +31,28 @@ class While(Instruccion):
             condicion = self.condicion.ejecutar(nuevoEntorno)
             if condicion.tipo != TIPO_DATO.BOOL:
                 print(f'La condición no es booleana, fila: {self.fila}, columna: {self.columna}')
+
+    def traducir(self, entorno, C3D):
+        C3D.comentario("Inicio While")
+        nuevoEntorno = Entorno("While", entorno)
+        etiqueta_while = C3D.nuevo_label()
+        C3D.agregar_label(etiqueta_while)
+        condicion = self.condicion.traducir(nuevoEntorno, C3D)
+        truelabel = condicion.true_label
+        falselabel = condicion.false_label
+
+        C3D.agregar_label(truelabel)
+        print(f'codigo: {self.codigo}')
+        elemento = self.codigo.traducir(nuevoEntorno, C3D)
+        C3D.agregar_goto(etiqueta_while)
+        C3D.agregar_label(falselabel)
+
+        lbreak = C3D.nuevo_label()
+        lcontinue = C3D.nuevo_label()
+
+
+        if condicion.tipo != TIPO_DATO.BOOL:
+            pass
+        # print(f'While {condicion}, valor: {condicion.valor} tipo: {condicion.tipo}')
+        C3D.comentario("Fin While")
+        #return elemento

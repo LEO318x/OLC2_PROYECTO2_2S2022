@@ -28,9 +28,11 @@ class Acceso(Expresion):
         #print(f'Eje_Acc: {valor}, id: {self.id}')
         if valor is not None:
             #print(f'Acc_Eje: {valor}')
+            C3D.comentario("Inicio variable")
             nueva_t = C3D.nueva_temporal()
             C3D.agregar_getstack(nueva_t, valor.posicion)
-            return C3D_Value(nueva_t, False, valor.tipo, "", "")
+            C3D.comentario("Fin variable")
+            return C3D_Value(nueva_t, True, valor.tipo, None, None)
         else:
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
             print(f'Error_Acc, la variable "{self.id}" no existe')
