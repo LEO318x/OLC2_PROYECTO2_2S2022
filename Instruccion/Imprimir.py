@@ -108,7 +108,7 @@ class Print(Instruccion):
                 C3D.agregar_codigo(f'printf("%c", (int)10);')
                 C3D.agregar_codigo(f'printf("%c", (int)13);')
             elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
-                print(f'c3d_print_valor: {tmp_expre.valor}')
+                print(f'c3d_print_valor: {tmp_expre.valor} istemp: {tmp_expre.istemp}')
                 C3D.agregar_codigo(f'stack[(int)P] = {tmp_expre.valor};')
                 C3D.agregar_codigo(f'imprimir();')
                 C3D.agregar_codigo(f'printf("%c", (int)10);')

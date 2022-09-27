@@ -11,3 +11,6 @@ class ToOwned(Instruccion):
     def ejecutar(self, entorno):
         expr = self.expresion.ejecutar(entorno)
         return Retorno(expr.valor, TIPO_DATO.STRING)
+
+    def traducir(self, entorno, C3D):
+        pass

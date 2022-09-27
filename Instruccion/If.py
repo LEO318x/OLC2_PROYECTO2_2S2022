@@ -29,19 +29,21 @@ class If(Instruccion):
 
     def traducir(self, entorno, C3D):
         C3D.comentario(f"Inicio If")
+        resultado = None
         nuevoEntorno = Entorno("If", entorno)
         condicion = self.condidcion.traducir(nuevoEntorno, C3D)
 
         print(f'If: {condicion}')
 
-        if condicion.tipo == TIPO_DATO.BOOL:
-            pass
+
         salida = C3D.nuevo_label()
         C3D.agregar_label(condicion.true_label)
-        self.codigo.traducir(nuevoEntorno, C3D)
+        resultado = self.codigo.traducir(nuevoEntorno, C3D)
+        print(f'if resultado {resultado}')
         C3D.agregar_goto(salida)
         C3D.agregar_label(condicion.false_label)
         if self.instruccion_else:
-            self.instruccion_else.traducir(nuevoEntorno, C3D)
+            resultado = self.instruccion_else.traducir(nuevoEntorno, C3D)
         C3D.agregar_label(salida)
         C3D.comentario(f"Fin If")
+        return resultado

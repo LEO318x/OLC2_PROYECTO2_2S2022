@@ -2,6 +2,7 @@ import copy
 
 from Abstract.Instruccion import Instruccion
 from Abstract.Retorno import Retorno
+from Simbolo.Simbolo import C3D_Value
 
 
 class Clone(Instruccion):
@@ -13,3 +14,8 @@ class Clone(Instruccion):
         expr = self.expresion.ejecutar(entorno)
         expr = copy.deepcopy(expr)
         return Retorno(expr.valor, expr.tipo)
+
+    def traducir(self, entorno, C3D):
+        expr = self.expresion.traducir(entorno, C3D)
+        expr = copy.deepcopy(expr)
+        return C3D_Value(expr.valor, False, expr.tipo, None, None)

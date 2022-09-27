@@ -9,3 +9,6 @@ class Continue(Instruccion):
 
     def ejecutar(self, entorno):
         return Retorno('continue', TIPO_DATO.CONTINUE)
+
+    def traducir(self, entorno, C3D):
+        return Retorno('continue', TIPO_DATO.CONTINUE)
