@@ -77,7 +77,6 @@ class Print(Instruccion):
         return tmp
 
     def traducir(self, entorno, C3D):
-        print(f'print_c3d entro')
         tmpls = self.lexpresion.copy()
         tmplsaux = self.lexpresion.copy()
         if len(tmpls) > 1:

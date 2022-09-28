@@ -36,8 +36,10 @@ class While(Instruccion):
         C3D.comentario("Inicio While")
         nuevoEntorno = Entorno("While", entorno)
         etiqueta_while = C3D.nuevo_label()
-        lbreak = C3D.nuevo_label()
-        lcontinue = C3D.nuevo_label()
+
+        tcontinue = C3D.nuevo_label()
+        C3D.agregar_continue(tcontinue)
+        C3D.agregar_label(C3D.obtener_continue())
 
         C3D.agregar_label(etiqueta_while)
         condicion = self.condicion.traducir(nuevoEntorno, C3D)
@@ -48,18 +50,13 @@ class While(Instruccion):
         print(f'codigo: {self.codigo}')
         elemento = self.codigo.traducir(nuevoEntorno, C3D)
         print(f'while elemento {elemento}')
-        if elemento is not None:
-            if elemento.tipo == TIPO_DATO.BREAK:
-                C3D.comentario("BREAK")
-                C3D.agregar_goto(lbreak)
-            elif elemento.tipo == TIPO_DATO.CONTINUE:
-                C3D.comentario("CONTINUE")
-                C3D.agregar_goto(etiqueta_while)
+
+
         C3D.agregar_goto(etiqueta_while)
         C3D.agregar_label(falselabel)
-        C3D.agregar_label(lbreak)
-
-
+        if C3D.obtener_break() is not None:
+            C3D.agregar_label(C3D.obtener_break())
+            C3D.limpiar_break()
         # print(f'While {condicion}, valor: {condicion.valor} tipo: {condicion.tipo}')
         C3D.comentario("Fin While")
-        #return elemento
+        return None

@@ -6,6 +6,8 @@ class Generador:
         self.temp_list = []
         self.S = 0
         self.H = 0
+        self.tmpbreak = None
+        self.tmpcontinue = None
         self.lttemp = []
         self.lftemp = []
 
@@ -46,6 +48,24 @@ class Generador:
 
     def agregar_getstack(self, target, valor):
         self.codigo.append(f'{target} = stack[(int) {valor}];')
+
+    def agregar_break(self,  label):
+        self.tmpbreak = label
+
+    def obtener_break(self):
+        return self.tmpbreak
+
+    def limpiar_break(self):
+        self.tmpbreak = None
+
+    def agregar_continue(self,  label):
+        self.tmpcontinue = label
+
+    def obtener_continue(self):
+        return self.tmpcontinue
+
+    def limpiar_continue(self):
+        self.tmpcontinue = None
 
     def agregar_lttemp(self, label):
         self.lttemp.append(label)

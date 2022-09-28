@@ -12,6 +12,11 @@ class Break(Instruccion):
         return Retorno('break', TIPO_DATO.BREAK)
 
     def traducir(self, entorno, C3D):
-        return C3D_Value('Break', False, TIPO_DATO.BREAK, None, None)
+        C3D.comentario("BREAK")
+        tbreak = C3D.nuevo_label()
+        C3D.agregar_break(tbreak)
+        C3D.agregar_goto(tbreak)
+        return None
+        # return C3D_Value('break', False, TIPO_DATO.BREAK, None, None)
 
         

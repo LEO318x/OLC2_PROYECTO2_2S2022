@@ -34,8 +34,6 @@ class If(Instruccion):
         condicion = self.condidcion.traducir(nuevoEntorno, C3D)
 
         print(f'If: {condicion}')
-
-
         salida = C3D.nuevo_label()
         C3D.agregar_label(condicion.true_label)
         resultado = self.codigo.traducir(nuevoEntorno, C3D)
@@ -46,4 +44,4 @@ class If(Instruccion):
             resultado = self.instruccion_else.traducir(nuevoEntorno, C3D)
         C3D.agregar_label(salida)
         C3D.comentario(f"Fin If")
-        return resultado
+        return None

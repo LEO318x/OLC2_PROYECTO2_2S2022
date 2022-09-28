@@ -18,6 +18,8 @@ class Sentencia(Instruccion):
         nuevoEntorno = Entorno(entorno.nombre, entorno)
         for instr in self.sentencias:
             elemento = instr.traducir(nuevoEntorno, C3D)
+            print(f'sentencia ele {elemento}')
             if elemento is not None:
                 elemento = instr.traducir(nuevoEntorno, C3D)
-                return elemento
+                print(f"setencia ele none {elemento} valor {elemento.valor}")
+                # return elemento
