@@ -59,6 +59,8 @@ class Generador:
 
     def agregar_string(self, temp, txt):
         self.agregar_codigo(f'//Inicio string')
+        self.agregar_codigo(f'P = P + 1;')
+        self.agregar_codigo(f'stack[(int)P] = H;')
         self.agregar_codigo(f'{temp} = H;')
         for e in txt:
             self.agregar_codigo(f'heap[(int) H] = {ord(e)};')
@@ -80,6 +82,24 @@ class Generador:
 
     def comentario(self, txt):
         self.codigo.append(f'//|-->{txt}<--|')
+
+
+    # def nativa_imprimir(self):
+    #     txt = 'void imprimir(){\n'
+    #     txt += 't0 = P + 1;\n'
+    #     txt += 't1 = stack[(int)t0];\n'
+    #     txt += 'L1:'
+    #     txt += 't2 = heap[(int)t1];\n'
+    #     txt += 'if(t2 != -1) goto L2;\n'
+    #     txt += 'goto L3;\n'
+    #     txt += 'L2:\n'
+    #     txt += 'printf("%c",(int)t2);\n'
+    #     txt += 't1 = t1 + 1;\n'
+    #     txt += 'goto L1;\n'
+    #     txt += 'L3:\n'
+    #     txt += 'return;\n'
+    #     txt += '}\n'
+    #     return txt
 
     def nativa_imprimir(self):
         txt = "void imprimir(){\n"

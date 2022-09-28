@@ -62,7 +62,11 @@ class Literal(Expresion):
             falselabel = C3D.nuevo_label()
             if self.valor == 'true':
                 # C3D.agregar_goto(truelabel)
+                C3D.agregar_if(1, 0, ">", truelabel)
+                C3D.agregar_goto(falselabel)
                 return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
             elif self.valor == 'false':
                 # C3D.agregar_goto(falselabel)
+                C3D.agregar_if(0, 1, ">", truelabel)
+                C3D.agregar_goto(falselabel)
                 return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)

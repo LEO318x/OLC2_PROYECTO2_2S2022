@@ -44,16 +44,26 @@ class Declaracion(Instruccion):
             C3D.agregar_string(t, val.valor)
             C3D.agregar_setstack(pos, t)
         elif val.tipo == TIPO_DATO.BOOL:
-            salida = C3D.nuevo_label()
-            pos = C3D.sumar_stack()
-            print(f'Decla_Bool: {val.valor}')
-            C3D.agregar_label(val.true_label)
-            C3D.agregar_setstack(pos, 1)
-            C3D.agregar_goto(salida)
-            C3D.agregar_label(val.false_label)
-            C3D.agregar_setstack(pos, 0)
-            C3D.agregar_label(salida)
-            entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, 0)
+            print(f'decla bool {val.valor} istemp {val.istemp}')
+            if val.istemp:
+                tamanio = 1
+                pos = C3D.sumar_stack()
+                entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, tamanio)
+                C3D.agregar_setstack(pos, val.valor)
+            else:
+                pos = C3D.sumar_stack()
+                salida = C3D.nuevo_label()
+                C3D.agregar_label(val.true_label)
+                C3D.agregar_setstack(pos, 1)
+                C3D.agregar_goto(salida)
+                C3D.agregar_label(val.false_label)
+                C3D.agregar_setstack(pos, 0)
+                C3D.agregar_label(salida)
+                entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, 0)
+
+                # pos = C3D.sumar_stack()
+                # print(f'Decla_Bool: {val.valor}')
+
         C3D.comentario("Fin Declaracion")
         return C3D_Value(None, False, TIPO_DATO.INTEGER, None, None)
 

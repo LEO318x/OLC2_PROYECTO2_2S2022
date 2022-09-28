@@ -77,43 +77,124 @@ class Print(Instruccion):
         return tmp
 
     def traducir(self, entorno, C3D):
-        for expresion in self.lexpresion:
-            tmp_expre = expresion.traducir(entorno, C3D)
-            print(f'c3d_print: {tmp_expre} valor: {tmp_expre.valor} tipo: {tmp_expre.tipo}')
-            C3D.comentario("Impresion")
-            if tmp_expre.tipo == TIPO_DATO.BOOL:
-                etiqueta = C3D.nuevo_label()
-                etiqueta2 = C3D.nuevo_label()
-                etiquetasal = C3D.nuevo_label()
+        print(f'print_c3d entro')
+        tmpls = self.lexpresion.copy()
+        tmplsaux = self.lexpresion.copy()
+        if len(tmpls) > 1:
+            C3D.comentario("Inicio Impresion")
+            tmpexpr = tmpls[0].traducir(entorno, C3D)
+            print(f'print {tmpexpr.valor}')
 
-                C3D.agregar_if(tmp_expre.valor, 1, "==", etiqueta)
-                C3D.agregar_goto(etiqueta2)
-                C3D.agregar_label(etiqueta)
-                C3D.agregar_codigo("print_true_proc();")
-                C3D.agregar_codigo(f'printf("%c", (int)10);')
-                C3D.agregar_codigo(f'printf("%c", (int)13);')
-                C3D.agregar_goto(etiquetasal)
-                C3D.agregar_label(etiqueta2)
-                C3D.agregar_codigo("print_false_proc();")
-                C3D.agregar_codigo(f'printf("%c", (int)10);')
-                C3D.agregar_codigo(f'printf("%c", (int)13);')
-                C3D.agregar_label(etiquetasal)
+            if "{}" in tmpexpr.valor or "{:?}" in tmpexpr.valor:
+                del tmpls[0]
+                tmpprint = tmpexpr.valor
+                lstemp = []
 
-            elif tmp_expre.tipo == TIPO_DATO.INTEGER:
-                C3D.agregar_print("d", f'(int) {tmp_expre.valor}')
+                lstring = tmpprint.split("{}")
+
+                for i in range(0, len(tmpls)):
+
+                    tmp_expre = tmpls[i].traducir(entorno, C3D)
+                    print(f'string {lstring[i]} tmpexpre {tmp_expre.valor}')
+
+                    t = C3D.nueva_temporal()
+                    C3D.agregar_codigo(f'{t} = H;')
+                    C3D.agregar_string(t, lstring[i])
+                    C3D.agregar_codigo(f'imprimir();')
+                    C3D.agregar_codigo(f'P = P - 1;')
+
+                    #Despues de la cadena
+                    if tmp_expre.tipo == TIPO_DATO.INTEGER:
+                        C3D.agregar_print("d", f'(int) {tmp_expre.valor}')
+                    elif tmp_expre.tipo == TIPO_DATO.FLOAT:
+                        C3D.agregar_print("f", f'{tmp_expre.valor}')
+                    elif tmp_expre.tipo == TIPO_DATO.CHAR:
+                        C3D.agregar_print("c", f'(int) {tmp_expre.valor}')
+                    elif tmp_expre.tipo == TIPO_DATO.BOOL:
+                        pass
+                    elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
+                        pass
                 C3D.agregar_codigo(f'printf("%c", (int)10);')
                 C3D.agregar_codigo(f'printf("%c", (int)13);')
-            elif tmp_expre.tipo == TIPO_DATO.FLOAT:
-                C3D.agregar_print("f", f'{tmp_expre.valor}')
-                C3D.agregar_codigo(f'printf("%c", (int)10);')
-                C3D.agregar_codigo(f'printf("%c", (int)13);')
-            elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
-                print(f'c3d_print_valor: {tmp_expre.valor} istemp: {tmp_expre.istemp}')
-                C3D.agregar_codigo(f'stack[(int)P] = {tmp_expre.valor};')
-                C3D.agregar_codigo(f'imprimir();')
-                C3D.agregar_codigo(f'printf("%c", (int)10);')
-                C3D.agregar_codigo(f'printf("%c", (int)13);')
-            elif tmp_expre.tipo == TIPO_DATO.CHAR:
-                C3D.agregar_print("c", f'(int) {tmp_expre.valor}')
-                C3D.agregar_codigo(f'printf("%c", (int)10);')
-                C3D.agregar_codigo(f'printf("%c", (int)13);')
+                C3D.comentario("FIN Impresion")
+        else:
+            C3D.comentario("Inicio Impresion")
+            for expresion in tmpls:
+                tmp_expre = expresion.traducir(entorno, C3D)
+                if tmp_expre.tipo == TIPO_DATO.INTEGER:
+                    C3D.agregar_print("d", f'(int) {tmp_expre.valor}')
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+                elif tmp_expre.tipo == TIPO_DATO.FLOAT:
+                    C3D.agregar_print("f", f'{tmp_expre.valor}')
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+                elif tmp_expre.tipo == TIPO_DATO.CHAR:
+                    print(f'chr istemp {tmp_expre.istemp}')
+                    if tmp_expre.istemp:
+                        valor = tmp_expre.valor
+                    else:
+                        valor = ord(tmp_expre.valor)
+                    C3D.agregar_print("c", f'(int) {valor}')
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+                elif tmp_expre.tipo == TIPO_DATO.BOOL:
+                    pass
+                elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
+                    pass
+            C3D.comentario("FIN Impresion")
+
+
+
+        # for expresion in self.lexpresion:
+        #     tmp_expre = expresion.traducir(entorno, C3D)
+        #     print(f'c3d_print: {tmp_expre} valor: {tmp_expre.valor} tipo: {tmp_expre.tipo}')
+        #     C3D.comentario("Impresion")
+        #     if tmp_expre.tipo == TIPO_DATO.BOOL:
+        #         etiqueta = C3D.nuevo_label()
+        #         etiqueta2 = C3D.nuevo_label()
+        #         etiquetasal = C3D.nuevo_label()
+        #
+        #         C3D.agregar_if(tmp_expre.valor, 1, "==", etiqueta)
+        #         C3D.agregar_goto(etiqueta2)
+        #         C3D.agregar_label(etiqueta)
+        #         C3D.agregar_codigo("print_true_proc();")
+        #         C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #         C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #         C3D.agregar_goto(etiquetasal)
+        #         C3D.agregar_label(etiqueta2)
+        #         C3D.agregar_codigo("print_false_proc();")
+        #         C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #         C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #         C3D.agregar_label(etiquetasal)
+        #
+        #     elif tmp_expre.tipo == TIPO_DATO.INTEGER:
+        #         C3D.agregar_print("d", f'(int) {tmp_expre.valor}')
+        #         C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #         C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #     elif tmp_expre.tipo == TIPO_DATO.FLOAT:
+        #         C3D.agregar_print("f", f'{tmp_expre.valor}')
+        #         C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #         C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #     elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
+        #         print(f'c3d_print_valor: {tmp_expre.valor} istemp: {tmp_expre.istemp}')
+        #
+        #         if not tmp_expre.istemp:
+        #             t = C3D.nueva_temporal()
+        #             C3D.agregar_string(t, tmp_expre.valor)
+        #             C3D.agregar_codigo(f'stack[(int)P] = {t};')
+        #             C3D.agregar_codigo(f'imprimir();')
+        #             C3D.agregar_codigo(f'P = P - 1;')
+        #             C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #             C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #         else:
+        #             C3D.agregar_codigo(f'stack[(int)P] = {tmp_expre.valor};')
+        #             C3D.agregar_codigo(f'imprimir();')
+        #             C3D.agregar_codigo(f'P = P - 1;')
+        #             C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #             C3D.agregar_codigo(f'printf("%c", (int)13);')
+        #
+        #     elif tmp_expre.tipo == TIPO_DATO.CHAR:
+        #         C3D.agregar_print("c", f'(int) {tmp_expre.valor}')
+        #         C3D.agregar_codigo(f'printf("%c", (int)10);')
+        #         C3D.agregar_codigo(f'printf("%c", (int)13);')
