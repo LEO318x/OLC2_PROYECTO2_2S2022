@@ -119,6 +119,17 @@ class Entorno:
         self.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, posicion, tamanio)})
         # print(f'Ent_var: {self.variables}')
 
+    def c3d_guardar_var_tipo(self, id, valor, tipo, posicion, tamanio):
+        env = self
+        # print(f'Env_var_tipo->{id, valor, tipo}')
+        while env != None:
+            if id in env.c3d_variables:
+                env.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, posicion, tamanio)})
+                return
+            env = env.anterior
+        self.c3d_variables.update({id: C3D_Simbolo(id, valor, tipo, posicion, tamanio)})
+        # print(f'Ent_var: {self.variables}')
+
     def c3d_getVar(self, id):
         env = self
         while env != None:
