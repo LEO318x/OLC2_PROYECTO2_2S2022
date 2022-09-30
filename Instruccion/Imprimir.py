@@ -110,7 +110,34 @@ class Print(Instruccion):
                     elif tmp_expre.tipo == TIPO_DATO.CHAR:
                         C3D.agregar_print("c", f'(int) {tmp_expre.valor}')
                     elif tmp_expre.tipo == TIPO_DATO.BOOL:
-                        pass
+                        print(f'print bool {tmp_expre.valor}')
+
+                        etiqueta = None
+                        etiqueta2 = None
+                        if tmp_expre.true_label is None:
+                            etiqueta = C3D.nuevo_label()
+                        else:
+                            etiqueta = tmp_expre.true_label
+
+                        if tmp_expre.false_label is None:
+                            etiqueta2 = C3D.nuevo_label()
+                        else:
+                            etiqueta2 = tmp_expre.false_label
+
+                        etiquetasal = C3D.nuevo_label()
+
+                        C3D.agregar_if(tmp_expre.valor, 1, "==", etiqueta)
+                        C3D.agregar_goto(etiqueta2)
+                        C3D.agregar_label(etiqueta)
+                        C3D.agregar_codigo("print_true_proc();")
+                        C3D.agregar_codigo(f'printf("%c", (int)10);')
+                        C3D.agregar_codigo(f'printf("%c", (int)13);')
+                        C3D.agregar_goto(etiquetasal)
+                        C3D.agregar_label(etiqueta2)
+                        C3D.agregar_codigo("print_false_proc();")
+                        C3D.agregar_codigo(f'printf("%c", (int)10);')
+                        C3D.agregar_codigo(f'printf("%c", (int)13);')
+                        C3D.agregar_label(etiquetasal)
                     elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
                         pass
                 C3D.agregar_codigo(f'printf("%c", (int)10);')
@@ -138,9 +165,36 @@ class Print(Instruccion):
                     C3D.agregar_codigo(f'printf("%c", (int)10);')
                     C3D.agregar_codigo(f'printf("%c", (int)13);')
                 elif tmp_expre.tipo == TIPO_DATO.BOOL:
-                    pass
+                    print(f'print bool {tmp_expre.valor}')
+
+                    etiqueta = None
+                    etiqueta2 = None
+                    if tmp_expre.true_label is None:
+                        etiqueta = C3D.nuevo_label()
+                    else:
+                        etiqueta = tmp_expre.true_label
+
+                    if tmp_expre.false_label is None:
+                        etiqueta2 = C3D.nuevo_label()
+                    else:
+                        etiqueta2 = tmp_expre.false_label
+
+                    etiquetasal = C3D.nuevo_label()
+
+                    C3D.agregar_if(tmp_expre.valor, 1, "==", etiqueta)
+                    C3D.agregar_goto(etiqueta2)
+                    C3D.agregar_label(etiqueta)
+                    C3D.agregar_codigo("print_true_proc();")
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+                    C3D.agregar_goto(etiquetasal)
+                    C3D.agregar_label(etiqueta2)
+                    C3D.agregar_codigo("print_false_proc();")
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+                    C3D.agregar_label(etiquetasal)
                 elif tmp_expre.tipo == TIPO_DATO.STRING or tmp_expre.tipo == TIPO_DATO.RSTR:
-                    pass
+                    print(f'print string {tmp_expre.valor} is temp: {tmp_expre.istemp}')
             C3D.comentario("FIN Impresion")
 
 

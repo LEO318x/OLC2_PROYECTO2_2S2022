@@ -49,10 +49,14 @@ class Logica(Expresion):
         elif self.tipo_operacion == TIPO_LOGICO.NOT:
             C3D.comentario("Inicio NOT")
             valorDer = self.exprDer.traducir(entorno, C3D)
+            if valorDer.valor == 1:
+                valorDer.valor = 0
+            else:
+                valorDer.valor = 1
             print(f'logica valor {valorDer.valor}')
             print(f'Logica_Not | Valor, Der: {valorDer.valor}, true{valorDer.true_label}, false{valorDer.false_label}')
             C3D.comentario("Fin NOT")
-            return C3D_Value(None, False, TIPO_DATO.BOOL, f'{valorDer.false_label}', f'{valorDer.true_label}')
+            return C3D_Value(valorDer.valor, False, TIPO_DATO.BOOL, f'{valorDer.false_label}', f'{valorDer.true_label}')
             # if bool(valorIzq.valor) or bool(valorDer.valor):
             #     print(f'Logica | Valor, Izq: {valorIzq.valor} Der: {valorDer.valor}')
             #     return C3D_Value(1, False, TIPO_DATO.BOOL, verdadero, falso)
