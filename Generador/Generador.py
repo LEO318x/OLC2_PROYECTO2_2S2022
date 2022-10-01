@@ -81,7 +81,7 @@ class Generador:
         self.agregar_codigo(f'//Inicio string')
         self.agregar_codigo(f'P = P + 1;')
         self.agregar_codigo(f'stack[(int)P] = H;')
-        self.agregar_codigo(f'{temp} = H;')
+        self.agregar_codigo(f'{temp} = P;')
         for e in txt:
             self.agregar_codigo(f'heap[(int) H] = {ord(e)};')
             self.agregar_codigo(f'H = H + 1;')
