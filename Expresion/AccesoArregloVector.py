@@ -2,6 +2,7 @@ from Abstract.Expresion import Expresion
 from Abstract.Retorno import Retorno
 from Error.Error import Error
 from Reporte.Reportes import lerrores
+from Simbolo.Simbolo import C3D_Value
 from Simbolo.Tipo import TIPO_DATO
 
 
@@ -37,3 +38,17 @@ class AccesoArregloVector(Expresion):
                 Error(self.fila, self.columna, entorno.nombre, 'No es un arreglo o vector'))
             print(f'Acceso_Arreglo_Error: No es un arreglo o vector')
             return Retorno("Error", TIPO_DATO.ERROR)
+
+    def traducir(self, entorno, C3D):
+        anterior = self.anterior.traducir(entorno, C3D)
+        # print(f'anterior: {anterior.valor}')
+        if anterior.tipo == TIPO_DATO.ARRAY or anterior.tipo == TIPO_DATO.VECT:
+            indice = self.indice.traducir(entorno, C3D)
+            t = C3D.nueva_temporal()
+            C3D.agregar_codigo(f'{t} = {anterior.valor};')
+            C3D.agregar_codigo(f'{t} = {t} + 1 ;')
+            C3D.agregar_codigo(f'{t} = {t} + {indice.valor};')
+            tv = C3D.nueva_temporal()
+            C3D.agregar_codigo(f'{tv} = heap[(int) {t}];')
+            print(f'acceso arr | valor{anterior.valor} indice: {indice.valor}')
+            return C3D_Value(tv, True, TIPO_DATO.INTEGER, None, None)

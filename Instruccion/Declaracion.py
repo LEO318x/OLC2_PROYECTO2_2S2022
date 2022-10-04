@@ -67,7 +67,12 @@ class Declaracion(Instruccion):
                 C3D.agregar_setstack(pos, 0)
                 C3D.agregar_label(salida)
                 entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, 0)
-
+        elif val.tipo == TIPO_DATO.ARRAY:
+            pos = C3D.sumar_stack()
+            entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, val.false_label)
+            C3D.agregar_setstack(pos, val.valor)
+            print(f'decla array | id: {self.id} valor:{val.valor} tipo:{val.tipo}, tamanio:{val.false_label}')
+            pass
                 # pos = C3D.sumar_stack()
                 # print(f'Decla_Bool: {val.valor}')
 
