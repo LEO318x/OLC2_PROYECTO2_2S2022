@@ -33,7 +33,8 @@ class If(Instruccion):
         nuevoEntorno = Entorno("If", entorno)
         condicion = self.condidcion.traducir(nuevoEntorno, C3D)
 
-        print(f'If: {condicion}')
+        print(f'If: {condicion.valor} true: {condicion.true_label} false: {condicion.false_label}')
+
         salida = C3D.nuevo_label()
         C3D.agregar_label(condicion.true_label)
         resultado = self.codigo.traducir(nuevoEntorno, C3D)

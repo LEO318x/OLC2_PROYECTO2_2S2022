@@ -3,6 +3,7 @@ from Abstract.Retorno import Retorno
 from Error.Error import Error
 from Reporte.Reportes import lerrores
 from Simbolo.Simbolo import C3D_Value
+from Simbolo.Tipo import TIPO_DATO
 
 
 class Acceso(Expresion):
@@ -27,12 +28,27 @@ class Acceso(Expresion):
         valor = entorno.c3d_getVar(self.id)
         #print(f'Eje_Acc: {valor}, id: {self.id}')
         if valor is not None:
-            #print(f'Acc_Eje: {valor}')
+            print(f'Acc_Eje: {valor.valor}, tipo: {valor.tipo}')
+
             C3D.comentario("Inicio variable")
-            nueva_t = C3D.nueva_temporal()
-            C3D.agregar_getstack(nueva_t, valor.posicion)
-            C3D.comentario("Fin variable")
-            return C3D_Value(nueva_t, True, valor.tipo, None, None)
+            if valor.tipo == TIPO_DATO.BOOL:
+                truelabel = C3D.nuevo_label()
+                falselabel = C3D.nuevo_label()
+                if valor.valor == 1:
+                    # C3D.agregar_goto(truelabel)
+                    C3D.agregar_if(1, 0, ">", truelabel)
+                    C3D.agregar_goto(falselabel)
+                    return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+                elif valor.valor == 0:
+                    # C3D.agregar_goto(falselabel)
+                    C3D.agregar_if(0, 1, ">", truelabel)
+                    C3D.agregar_goto(falselabel)
+                    return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                nueva_t = C3D.nueva_temporal()
+                C3D.agregar_getstack(nueva_t, valor.posicion)
+                C3D.comentario("Fin variable")
+                return C3D_Value(nueva_t, True, valor.tipo, None, None)
         else:
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
             print(f'Error_Acc, la variable "{self.id}" no existe')

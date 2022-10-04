@@ -115,7 +115,7 @@ class Aritmetica(Expresion):
                     C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "/")
                     return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
-                C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "%")
+                C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
         elif TIPO_DATO.FLOAT == valorIzq.tipo and TIPO_DATO.FLOAT == valorDer.tipo:
             if TIPO_OPERACION.SUMA == self.tipo_operacion:
@@ -136,7 +136,7 @@ class Aritmetica(Expresion):
                     C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "/")
                     return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
-                C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "%")
+                C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
         elif TIPO_DATO.STRING == valorIzq.tipo and TIPO_DATO.RSTR == valorDer.tipo:
             if TIPO_OPERACION.SUMA == self.tipo_operacion:

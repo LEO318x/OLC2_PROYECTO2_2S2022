@@ -49,6 +49,12 @@ class Logica(Expresion):
         elif self.tipo_operacion == TIPO_LOGICO.NOT:
             C3D.comentario("Inicio NOT")
             valorDer = self.exprDer.traducir(entorno, C3D)
+            if valorDer.true_label is None:
+                t = C3D.nueva_temporal()
+                valorDer.true_label = t
+            if valorDer.false_label is None:
+                t = C3D.nueva_temporal()
+                valorDer.false_label = t
             if valorDer.valor == 1:
                 valorDer.valor = 0
             else:

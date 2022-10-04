@@ -79,9 +79,9 @@ class Generador:
 
     def agregar_string(self, temp, txt):
         self.agregar_codigo(f'//Inicio string')
-        self.agregar_codigo(f'P = P + 1;')
-        self.agregar_codigo(f'stack[(int)P] = H;')
-        self.agregar_codigo(f'{temp} = P;')
+        # self.agregar_codigo(f'P = P + 1;')
+        # self.agregar_codigo(f'stack[(int)P] = H;')
+        self.agregar_codigo(f'{temp} = H;')
         for e in txt:
             self.agregar_codigo(f'heap[(int) H] = {ord(e)};')
             self.agregar_codigo(f'H = H + 1;')
@@ -123,7 +123,7 @@ class Generador:
 
     def nativa_imprimir(self):
         txt = "void imprimir(){\n"
-        txt += "t0 = stack[(int)P];\n"
+        # txt += "t0 = stack[(int)P];\n"
         txt += "t1 = heap[(int)t0];\n"
         txt += "t2 = - 1;\n"
         txt += "L1:\n"
@@ -179,6 +179,8 @@ class Generador:
         salida += self.print_true()
         salida += self.print_false()
         salida += "void main(){\n"
+        salida += "P = 0;\n"
+        salida += "H = 0;\n"
 
 
         for element in self.codigo:

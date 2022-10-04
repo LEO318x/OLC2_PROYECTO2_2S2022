@@ -51,6 +51,13 @@ class Declaracion(Instruccion):
                 entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, tamanio)
                 C3D.agregar_setstack(pos, val.valor)
             else:
+                if val.true_label is None:
+                    t = C3D.nueva_temporal()
+                    val.true_label = t
+                if val.false_label is None:
+                    t = C3D.nueva_temporal()
+                    val.false_label = t
+
                 pos = C3D.sumar_stack()
                 salida = C3D.nuevo_label()
                 C3D.agregar_label(val.true_label)
@@ -90,4 +97,69 @@ class Declaracion_Tipo(Instruccion):
         # print(f'Decla: {val.tipo}')
 
     def traducir(self, entorno, C3D):
-        pass
+        # print(f'Decla: {type(self.valor)}')
+        val = self.valor.traducir(entorno, C3D)
+        # print(f'Decla: {val.tipo}')
+        lsimbolos.append((self.id, "Variable", self.tipo, entorno.nombre, self.fila, self.columna))
+        print(f'Decla: {val.tipo}')
+        C3D.comentario("Inicio Declaracion")
+        if self.tipo == TIPO_DATO.INTEGER or self.tipo == TIPO_DATO.FLOAT:
+            tamanio = 1
+            pos = C3D.sumar_stack()
+            entorno.c3d_guardar_var(self.id, val.valor, self.tipo, pos, tamanio)
+            C3D.agregar_setstack(pos, val.valor)
+        elif self.tipo == TIPO_DATO.CHAR:
+            pos = C3D.sumar_stack()
+            entorno.c3d_guardar_var(self.id, val.valor, self.tipo, pos, 0)
+            C3D.agregar_setstack(pos, ord(val.valor))
+        elif self.tipo == TIPO_DATO.STRING or self.tipo == TIPO_DATO.RSTR:
+            print(f"Decla_string: {self.tipo}, {val.valor}")
+            tamanio = len(val.valor)
+            t = C3D.nueva_temporal()
+            pos = C3D.sumar_stack()
+            entorno.c3d_guardar_var(self.id, val.valor, self.tipo, pos, tamanio)
+            C3D.agregar_string(t, val.valor)
+            C3D.agregar_setstack(pos, t)
+        elif self.tipo == TIPO_DATO.BOOL:
+            print(f'decla bool {val.valor} istemp {val.istemp}')
+            if val.istemp:
+                print(f'efecita')
+                tamanio = 1
+                if val.true_label is None:
+                    t = C3D.nueva_temporal()
+                    val.true_label = t
+                if val.false_label is None:
+                    t = C3D.nueva_temporal()
+                    val.false_label = t
+                pos = C3D.sumar_stack()
+                salida = C3D.nuevo_label()
+                C3D.agregar_label(val.true_label)
+                C3D.agregar_setstack(pos, 1)
+                C3D.agregar_goto(salida)
+                C3D.agregar_label(val.false_label)
+                C3D.agregar_setstack(pos, 0)
+                C3D.agregar_label(salida)
+                entorno.c3d_guardar_var(self.id, val.valor, self.tipo, pos, tamanio)
+
+            else:
+                if val.true_label is None:
+                    t = C3D.nueva_temporal()
+                    val.true_label = t
+                if val.false_label is None:
+                    t = C3D.nueva_temporal()
+                    val.false_label = t
+                pos = C3D.sumar_stack()
+                salida = C3D.nuevo_label()
+                C3D.agregar_label(val.true_label)
+                C3D.agregar_setstack(pos, 1)
+                C3D.agregar_goto(salida)
+                C3D.agregar_label(val.false_label)
+                C3D.agregar_setstack(pos, 0)
+                C3D.agregar_label(salida)
+                entorno.c3d_guardar_var(self.id, val.valor, self.tipo, pos, 0)
+
+                # pos = C3D.sumar_stack()
+                # print(f'Decla_Bool: {val.valor}')
+
+        C3D.comentario("Fin Declaracion")
+        return C3D_Value(None, False, TIPO_DATO.INTEGER, None, None)
