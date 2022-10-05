@@ -11,6 +11,7 @@ class Entorno:
         self.anterior = anterior
         # Entorno para C3D
         self.c3d_variables = {}
+        self.c3d_funciones = dict()
 
     def guardar(self, id, valor, tipo, mutable):
         env = self
