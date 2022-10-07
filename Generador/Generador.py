@@ -1,7 +1,7 @@
 class Generador:
     def __init__(self):
-        self.temporal = 3
-        self.label = 3
+        self.temporal = 20
+        self.label = 20
         self.codigo = []
         self.temp_list = []
         self.S = 0
@@ -21,6 +21,17 @@ class Generador:
         temp = self.S
         self.S += 1
         return temp
+
+    def get_stack(self):
+        return self.S
+
+    def sumar_heap(self):
+        temp = self.H
+        self.H += 1
+        return temp
+
+    def get_heap(self):
+        return self.H
 
     def nueva_temporal(self):
         temp = "t" + str(self.temporal)
@@ -137,6 +148,36 @@ class Generador:
         txt += "}\n"
         return txt
 
+    def concatenar_string(self):
+        txt = "void concatenar_string(){\n"
+        txt += "t8 = H;\n"
+        txt += "t5 = t3;\n"
+        txt += "t6 = t4;\n"
+        txt += "L8:\n"
+        txt += "t7 = heap[(int)t5];\n"
+        txt += "if(t7 != -1) goto L6;\n"
+        txt += "goto L7;\n"
+        txt += "L6:\n"
+        txt += "heap[(int)H] = t7;\n"
+        txt += "H = H + 1;\n"
+        txt += "t5 = t5 + 1;\n"
+        txt += "goto L8;\n"
+        txt += "L7:\n"
+        txt += "t7 = heap[(int)t6];\n"
+        txt += "if(t7 != -1) goto L9;\n"
+        txt += "goto L10;\n"
+        txt += "L9:\n"
+        txt += "heap[(int)H] = t7;\n"
+        txt += "H = H + 1;\n"
+        txt += "t6 = t6 + 1;\n"
+        txt += "goto L7;\n"
+        txt += "L10:\n"
+        txt += "heap[(int)H] = -1;\n"
+        txt += "H = H + 1;\n"
+        txt += "stack[(int)P] = t8;\n"
+        txt += "}\n"
+        return txt
+
     def print_true(self):
         txt = '\nvoid print_true_proc(){\n'
         txt += 'printf("%c",116);\n'
@@ -165,7 +206,7 @@ class Generador:
         salida += "float heap[100000];\n"
         salida += "float P;\n"
         salida += "float H;\n"
-        salida += "float t0, t1, t2"
+        salida += "float t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19"
 
         #salida += self.temp_list[0]
         #del self.temp_list[0]
@@ -176,6 +217,7 @@ class Generador:
 
         salida += ";\n\n"
         salida += self.nativa_imprimir()
+        salida += self.concatenar_string()
         salida += self.print_true()
         salida += self.print_false()
         salida += "void main(){\n"

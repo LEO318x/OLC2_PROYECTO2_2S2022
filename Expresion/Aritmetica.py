@@ -138,15 +138,36 @@ class Aritmetica(Expresion):
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
                 C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
-        elif TIPO_DATO.STRING == valorIzq.tipo and TIPO_DATO.RSTR == valorDer.tipo:
+        elif TIPO_DATO.STRING == valorIzq.tipo or TIPO_DATO.RSTR == valorDer.tipo:
             if TIPO_OPERACION.SUMA == self.tipo_operacion:
-                resultado = Retorno(valorIzq.valor + valorDer.valor, TIPO_DATO.STRING)
-                return resultado
+                print(f'Concat izq: {valorIzq.valor} istemp: {valorIzq.istemp} | der: {valorDer.valor} istemp: {valorDer.istemp}')
+                C3D.comentario("Inicio concatenacion")
+                if valorIzq.istemp is False:
+                    t = C3D.nueva_temporal()
+                    pos = C3D.sumar_stack()
+                    C3D.agregar_string(t, valorIzq.valor)
+                    C3D.agregar_setstack(pos, t)
+                    valorIzq.valor = t
+
+                if valorDer.istemp is False:
+                    t = C3D.nueva_temporal()
+                    pos = C3D.sumar_stack()
+                    C3D.agregar_string(t, valorDer.valor)
+                    C3D.agregar_setstack(pos, t)
+                    valorDer.valor = t
+
+                C3D.agregar_codigo(f'P = P + {C3D.get_stack()};')
+                C3D.agregar_codigo(f't3 = {valorIzq.valor};')
+                C3D.agregar_codigo(f't4 = {valorDer.valor};')
+                C3D.agregar_codigo(f'concatenar_string();')
+                C3D.agregar_codigo(f'{nueva_temp} = stack[(int) P];')
+                C3D.agregar_codigo(f'P = P - {C3D.get_stack()};')
+                C3D.comentario("Fin concatenacion")
+                return C3D_Value(nueva_temp, True, TIPO_DATO.STRING, None, None)
             else:
                 lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'Operacion no permitida'))
                 print(f'Arit: Operacion no permitida')
-                resultado = Retorno(0, TIPO_DATO.INTEGER)
-            return resultado
+            return C3D_Value(-1, True, TIPO_DATO.ERROR, None, None)
         else:
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'Los tipos de datos no coinciden'))
             print(f'Los tipos de datos no coinciden {valorIzq.tipo}!={valorDer.tipo}')

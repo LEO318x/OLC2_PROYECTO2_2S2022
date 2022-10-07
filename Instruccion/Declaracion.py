@@ -37,12 +37,17 @@ class Declaracion(Instruccion):
             C3D.agregar_setstack(pos, ord(val.valor))
         elif val.tipo == TIPO_DATO.STRING or val.tipo == TIPO_DATO.RSTR:
             print(f"Decla_string: {val.tipo}, {val.valor}")
-            tamanio = len(val.valor)
-            t = C3D.nueva_temporal()
-            pos = C3D.sumar_stack()
-            entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, tamanio)
-            C3D.agregar_string(t, val.valor)
-            C3D.agregar_setstack(pos, t)
+            if val.istemp:
+                pos = C3D.sumar_stack()
+                entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, 0)
+                C3D.agregar_setstack(pos, val.valor)
+            else:
+                tamanio = len(val.valor)
+                t = C3D.nueva_temporal()
+                pos = C3D.sumar_stack()
+                entorno.c3d_guardar_var(self.id, val.valor, val.tipo, pos, tamanio)
+                C3D.agregar_string(t, val.valor)
+                C3D.agregar_setstack(pos, t)
         elif val.tipo == TIPO_DATO.BOOL:
             print(f'decla bool {val.valor} istemp {val.istemp}')
             if val.istemp:

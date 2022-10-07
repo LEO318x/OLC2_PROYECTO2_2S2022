@@ -14,4 +14,5 @@ class ToString(Instruccion):
         return Retorno(expr.valor, TIPO_DATO.STRING)
 
     def traducir(self, entorno, C3D):
-        return self.expresion
+        expr = self.expresion.traducir(entorno, C3D)
+        return C3D_Value(expr.valor, False, TIPO_DATO.STRING, False, False)
