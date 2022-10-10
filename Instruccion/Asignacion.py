@@ -27,8 +27,8 @@ class Asignacion(Instruccion):
             var = entorno.c3d_getVar(self.id)
             C3D.agregar_setstack(var.posicion, val.valor)
         elif val.tipo == TIPO_DATO.STRING or val.tipo == TIPO_DATO.RSTR:
-            # Falta String
-            pass
+            var = entorno.c3d_getVar(self.id)
+            C3D.agregar_setstack(var.posicion, val.valor)
         elif val.tipo == TIPO_DATO.BOOL:
             salida = C3D.nuevo_label()
             pos = C3D.sumar_stack()
