@@ -107,13 +107,30 @@ class Aritmetica(Expresion):
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "*")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.DIV == self.tipo_operacion:
-                if valorDer.valor == 0:
+                if valorDer.valor == "0":
                     lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'No se puede dividir entre 0'))
                     print(f'No se puede dividir entre 0 >:(')
-                    resultado = Retorno(0, TIPO_DATO.INTEGER)
-                else:
+
+                sal = C3D.nuevo_label()
+                v = C3D.nuevo_label()
+                f = C3D.nuevo_label()
+
+                C3D.agregar_if(valorDer.valor, 0, "==", v)
+                C3D.agregar_goto(f)
+
+                C3D.agregar_label(v)
+                #Instrucciones si cond verdadera
+                C3D.agregar_codigo(f'print_err_div();')
+                C3D.agregar_expresion(nueva_temp, -1, 1, "/")
+                C3D.agregar_goto(sal)
+
+                C3D.agregar_label(f)
+                #Instrucciones si cond falsa
+                if valorDer.valor != "0":
                     C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "/")
-                    return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
+                C3D.agregar_label(sal)
+
+                return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
                 C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
@@ -128,13 +145,30 @@ class Aritmetica(Expresion):
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "*")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.DIV == self.tipo_operacion:
-                if valorDer.valor == 0:
+                if valorDer.valor == "0":
                     lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'No se puede dividir entre 0'))
                     print(f'No se puede dividir entre 0 >:(')
-                    resultado = Retorno(0, TIPO_DATO.FLOAT)
-                else:
+
+                sal = C3D.nuevo_label()
+                v = C3D.nuevo_label()
+                f = C3D.nuevo_label()
+
+                C3D.agregar_if(valorDer.valor, 0, "==", v)
+                C3D.agregar_goto(f)
+
+                C3D.agregar_label(v)
+                # Instrucciones si cond verdadera
+                C3D.agregar_codigo(f'print_err_div();')
+                C3D.agregar_expresion(nueva_temp, -1, 1, "/")
+                C3D.agregar_goto(sal)
+
+                C3D.agregar_label(f)
+                # Instrucciones si cond falsa
+                if valorDer.valor != "0":
                     C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "/")
-                    return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
+                C3D.agregar_label(sal)
+
+                return C3D_Value(nueva_temp, True, TIPO_DATO.FLOAT, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
                 C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")

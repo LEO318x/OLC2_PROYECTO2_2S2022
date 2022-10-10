@@ -199,6 +199,86 @@ class Generador:
         txt += '}\n'
         return txt
 
+    def print_err_div(self):
+        txt = "\nvoid print_err_div(){\n"
+        txt += 'printf("%c",78);\n'
+        txt += 'printf("%c",111);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",115);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",112);\n'
+        txt += 'printf("%c",117);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",118);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",114);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",110);\n'
+        txt += 'printf("%c",116);\n'
+        txt += 'printf("%c",114);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",48);\n'
+        txt += 'printf("%c",10);\n'
+        txt += 'printf("%c",13);\n'
+        txt += '}\n'
+        return txt
+
+    def print_err_arr(self):
+        txt = '\nvoid print_err_arr(){\n'
+        txt += 'printf("%c",73);\n'
+        txt += 'printf("%c",110);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",99);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",108);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",97);\n'
+        txt += 'printf("%c",114);\n'
+        txt += 'printf("%c",114);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",103);\n'
+        txt += 'printf("%c",108);\n'
+        txt += 'printf("%c",111);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",102);\n'
+        txt += 'printf("%c",117);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",114);\n'
+        txt += 'printf("%c",97);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",100);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",108);\n'
+        txt += 'printf("%c",111);\n'
+        txt += 'printf("%c",115);\n'
+        txt += 'printf("%c",32);\n'
+        txt += 'printf("%c",108);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",109);\n'
+        txt += 'printf("%c",105);\n'
+        txt += 'printf("%c",116);\n'
+        txt += 'printf("%c",101);\n'
+        txt += 'printf("%c",115);\n'
+        txt += 'printf("%c",10);\n'
+        txt += 'printf("%c",13);\n'
+        txt += '}\n'
+        return txt
+
 
     def generar_salida(self):
         salida = "#include <stdio.h>\n"
@@ -220,6 +300,8 @@ class Generador:
         salida += self.concatenar_string()
         salida += self.print_true()
         salida += self.print_false()
+        salida += self.print_err_div()
+        salida += self.print_err_arr()
         salida += "void main(){\n"
         salida += "P = 0;\n"
         salida += "H = 0;\n"

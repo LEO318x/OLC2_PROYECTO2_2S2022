@@ -48,7 +48,10 @@ class Acceso(Expresion):
                 nueva_t = C3D.nueva_temporal()
                 C3D.agregar_getstack(nueva_t, valor.posicion)
                 C3D.comentario("Fin variable")
-                return C3D_Value(nueva_t, True, valor.tipo, None, None)
+                if valor.tipo == TIPO_DATO.ARRAY:
+                    return C3D_Value(nueva_t, True, valor.tipo, None, None, valor.tamanio)
+                else:
+                    return C3D_Value(nueva_t, True, valor.tipo, None, None)
         else:
             lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'La variable no existe'))
             print(f'Error_Acc, la variable "{self.id}" no existe')

@@ -13,18 +13,18 @@ class AccesoArregloVector(Expresion):
         self.indice = indice
 
     def ejecutar(self, entorno):
-        #print(f'ACCARR: {self.anterior}')
+        # print(f'ACCARR: {self.anterior}')
         anterior = self.anterior.ejecutar(entorno)
-        #print(f'anterior: {anterior.valor}')
+        # print(f'anterior: {anterior.valor}')
         if anterior.tipo == TIPO_DATO.ARRAY or anterior.tipo == TIPO_DATO.VECT:
             indice = self.indice.ejecutar(entorno)
-            #print(f'Acceso_Arreglo: anterior {anterior.valor}')
+            # print(f'Acceso_Arreglo: anterior {anterior.valor}')
             if indice.tipo != TIPO_DATO.INTEGER:
                 lerrores.append(
                     Error(self.fila, self.columna, entorno.nombre, 'El indice nos es númerico'))
                 print(f'Acceso_Arreglo_Error: El indice no es númerico')
                 return Retorno("Error", TIPO_DATO.ERROR)
-            #print(f'anterior: {anterior.valor}')
+            # print(f'anterior: {anterior.valor}')
             if indice.valor < anterior.valor.getTamanio():
                 valor = anterior.valor.getAtributo(indice.valor)
             else:
@@ -43,12 +43,30 @@ class AccesoArregloVector(Expresion):
         anterior = self.anterior.traducir(entorno, C3D)
         # print(f'anterior: {anterior.valor}')
         if anterior.tipo == TIPO_DATO.ARRAY or anterior.tipo == TIPO_DATO.VECT:
-            indice = self.indice.traducir(entorno, C3D)
+            sal = C3D.nuevo_label()
+            v = C3D.nuevo_label()
+            f = C3D.nuevo_label()
+
             t = C3D.nueva_temporal()
+            tv = C3D.nueva_temporal()
+            indice = self.indice.traducir(entorno, C3D)
+
+            print(f'acceso arr | {anterior} valor{anterior.valor} indice: {indice.valor}, tamanio: {anterior.tamanio}')
+
+            C3D.agregar_if(indice.valor, anterior.tamanio, ">=", v)
+            C3D.agregar_goto(f)
+
+            C3D.agregar_label(v)
+            # Instrucciones si cond verdadera
+            C3D.agregar_codigo(f'print_err_arr();')
+            C3D.agregar_codigo(f'{tv} = -1;')
+            C3D.agregar_goto(sal)
+            C3D.agregar_label(f)
+            # Instrucciones si cond falsa
             C3D.agregar_codigo(f'{t} = {anterior.valor};')
             C3D.agregar_codigo(f'{t} = {t} + 1 ;')
             C3D.agregar_codigo(f'{t} = {t} + {indice.valor};')
-            tv = C3D.nueva_temporal()
             C3D.agregar_codigo(f'{tv} = heap[(int) {t}];')
-            print(f'acceso arr | valor{anterior.valor} indice: {indice.valor}')
+            C3D.agregar_label(sal)
+
             return C3D_Value(tv, True, TIPO_DATO.INTEGER, None, None)
