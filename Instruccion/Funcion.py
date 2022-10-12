@@ -14,3 +14,7 @@ class Funcion(Instruccion):
         # print(f'funcion_ejec {self.parametros}')
         lsimbolos.append((self.id, "Funcion", "TIPO_DATO.FUNC", entorno.nombre, self.fila, self.columna))
         entorno.guardarFuncion(self.id, self)
+
+    def traducir(self, entorno, C3D):
+        entorno.c3d_guardarFuncion(self.id, self)
+

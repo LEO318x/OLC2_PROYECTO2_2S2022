@@ -222,6 +222,52 @@ class Print(Instruccion):
                         C3D.agregar_codigo(f'imprimir();')
                         C3D.agregar_codigo(f'printf("%c", (int)10);')
                         C3D.agregar_codigo(f'printf("%c", (int)13);')
+                elif tmp_expre.tipo == TIPO_DATO.ARRAY:
+                    print(f'Arr {tmp_expre.tamanio}')
+
+                    C3D.agregar_codigo(f't9 = {tmp_expre.tamanio};')
+                    C3D.agregar_codigo(f't10 = {tmp_expre.valor};')
+                    C3D.agregar_codigo(f'print_arr();')
+                    C3D.agregar_codigo(f'printf("%c", (int)10);')
+                    C3D.agregar_codigo(f'printf("%c", (int)13);')
+
+                    # cont = C3D.nueva_temporal()
+                    # valor = C3D.nueva_temporal()
+                    # l1 = C3D.nuevo_label()
+                    # l3 = C3D.nuevo_label()
+                    # l2 = C3D.nuevo_label()
+                    # t = C3D.nueva_temporal()
+                    #
+                    # v = C3D.nuevo_label()
+                    # f = C3D.nuevo_label()
+                    # s = C3D.nuevo_label()
+                    #
+                    # C3D.agregar_codigo(f'printf("%c", (int) 91);')
+                    # C3D.agregar_label(l1)
+                    # C3D.agregar_if(cont, tmp_expre.tamanio, '<', l2)
+                    # C3D.agregar_goto(l3)
+                    # C3D.agregar_label(l2)
+                    # #instrucciones
+                    # C3D.agregar_codigo(f'{t} = {tmp_expre.valor};')
+                    # C3D.agregar_codigo(f'{t} = {t} + {cont};')
+                    # C3D.agregar_codigo(f'{t} = {t} + 1;')
+                    # C3D.agregar_codigo(f'{valor} = heap[(int) {t}];')
+                    # C3D.agregar_codigo(f'printf("%d", (int) {valor});')
+                    #
+                    # C3D.agregar_if(cont, tmp_expre.tamanio-1, '==', v)
+                    # C3D.agregar_goto(f)
+                    # C3D.agregar_label(v)
+                    #
+                    # C3D.agregar_goto(s)
+                    # C3D.agregar_label(f)
+                    # C3D.agregar_codigo(f'printf("%c", (int) 44);')
+                    # C3D.agregar_label(s)
+                    #
+                    # C3D.agregar_codigo(f'{cont} = {cont} + 1;')
+                    # C3D.agregar_goto(l1)
+                    # C3D.agregar_label(l3)
+                    # C3D.agregar_codigo(f'printf("%c", (int) 93);')
+
             C3D.comentario("FIN Impresion")
 
 

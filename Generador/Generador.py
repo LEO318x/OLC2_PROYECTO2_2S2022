@@ -1,5 +1,7 @@
 class Generador:
     def __init__(self):
+        # t14
+        # L17
         self.temporal = 20
         self.label = 20
         self.codigo = []
@@ -279,6 +281,51 @@ class Generador:
         txt += '}\n'
         return txt
 
+    def print_arr(self):
+        # t9 tamanio
+        # t10 expr_valor
+
+        txt = '\nvoid print_arr(){\n'
+        cont = 't11'
+        valor = 't12'
+        l1 = 'L11'
+        l3 = 'L12'
+        l2 = 'L13'
+        t = 't13'
+
+        v = 'L14'
+        f = 'L15'
+        s = 'L16'
+
+        txt += f'printf("%c", (int) 91);\n'
+        txt += f'{cont} = 0;'
+        txt += f'{l1}:\n'
+        txt += f'if ({cont} < t9) goto {l2};\n'
+        txt += f'goto {l3};\n'
+        txt += f'{l2}:\n'
+        # instrucciones
+        txt += f'{t} = t10;\n'
+        txt += f'{t} = {t} + {cont};\n'
+        txt += f'{t} = {t} + 1;\n'
+        txt += f'{valor} = heap[(int) {t}];\n'
+        txt += f'printf("%d", (int) {valor});\n'
+
+        txt += f'if ({cont} == t9-1) goto {v};\n'
+        txt += f'goto {f};\n'
+        txt += f'{v}:\n'
+
+        txt += f'goto {s};\n'
+        txt += f'{f}:\n'
+        txt += f'printf("%c", (int) 44);\n'
+        txt += f'{s}:\n'
+
+        txt += f'{cont} = {cont} + 1;\n'
+        txt += f'goto {l1};\n'
+        txt += f'{l3}:\n'
+        txt += f'printf("%c", (int) 93);\n'
+        txt += '}\n'
+        return txt
+
 
     def generar_salida(self):
         salida = "#include <stdio.h>\n"
@@ -302,6 +349,7 @@ class Generador:
         salida += self.print_false()
         salida += self.print_err_div()
         salida += self.print_err_arr()
+        salida += self.print_arr()
         salida += "void main(){\n"
         salida += "P = 0;\n"
         salida += "H = 0;\n"

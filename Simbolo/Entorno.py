@@ -139,6 +139,20 @@ class Entorno:
             env = env.anterior
         return None
 
+    def c3d_guardarFuncion(self, id, funcion):
+        #print(f'ent_guardFuncion {id}, funcion: {funcion}')
+        self.c3d_funciones.update({id: funcion})
+
+
+    def c3d_getFuncion(self, id):
+        env = self
+        while env != None:
+            if id in env.c3d_funciones:
+                return env.c3d_funciones.get(id)
+            env = env.anterior
+        return None
+
+
     # def c3d_asignar_var(self, id, valor, tipo):
     #     env = self
     #     # print(f'Env_AsigVar->{id, valor, tipo}')
