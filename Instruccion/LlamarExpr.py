@@ -38,3 +38,7 @@ class LlamarExpr(Instruccion):
             else:
                 print(f'El valor de retorno no coincide con el definido en la función, {valor_tiporetorno} != {tiporetorno}')
                 return Retorno(-1, TIPO_DATO.ERROR)
+
+    def traducir(self, entorno, C3D):
+        print(f'func llamarexpr')
+        pass

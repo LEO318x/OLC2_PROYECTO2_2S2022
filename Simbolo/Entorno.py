@@ -71,9 +71,8 @@ class Entorno:
         return None
 
     def guardarFuncion(self, id, funcion):
-        #print(f'ent_guardFuncion {id}, funcion: {funcion}')
+        # print(f'ent_guardFuncion {id}, funcion: {funcion}')
         self.funciones.update({id: funcion})
-
 
     def getFuncion(self, id):
         env = self
@@ -98,14 +97,13 @@ class Entorno:
             env = env.anterior
         return None
 
-
     def getGlobal(self):
         env = self
         while env.anterior != None:
             env = env.anterior
         return env
 
-# Metodos para C3D
+    # Metodos para C3D
     def c3d_guardar_var(self, id, valor, tipo, posicion, tamanio):
         env = self
         # print(f'Env->{id, valor, tipo}')
@@ -140,9 +138,8 @@ class Entorno:
         return None
 
     def c3d_guardarFuncion(self, id, funcion):
-        #print(f'ent_guardFuncion {id}, funcion: {funcion}')
+        # print(f'ent_guardFuncion {id}, funcion: {funcion}')
         self.c3d_funciones.update({id: funcion})
-
 
     def c3d_getFuncion(self, id):
         env = self
@@ -151,7 +148,6 @@ class Entorno:
                 return env.c3d_funciones.get(id)
             env = env.anterior
         return None
-
 
     # def c3d_asignar_var(self, id, valor, tipo):
     #     env = self

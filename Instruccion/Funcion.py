@@ -1,5 +1,6 @@
 from Abstract.Instruccion import Instruccion
 from Reporte.Reportes import lsimbolos
+from Simbolo.Entorno import Entorno
 
 
 class Funcion(Instruccion):
@@ -16,5 +17,7 @@ class Funcion(Instruccion):
         entorno.guardarFuncion(self.id, self)
 
     def traducir(self, entorno, C3D):
+        print(f'guardar func3d {self.id}')
+        lsimbolos.append((self.id, "Funcion", "TIPO_DATO.FUNC", entorno.nombre, self.fila, self.columna))
         entorno.c3d_guardarFuncion(self.id, self)
 

@@ -1,6 +1,6 @@
 class Generador:
     def __init__(self):
-        # t14
+        # t15
         # L17
         self.temporal = 20
         self.label = 20
@@ -310,7 +310,8 @@ class Generador:
         txt += f'{valor} = heap[(int) {t}];\n'
         txt += f'printf("%d", (int) {valor});\n'
 
-        txt += f'if ({cont} == t9-1) goto {v};\n'
+        txt += f't14 = t9-1;'
+        txt += f'if ({cont} == t14) goto {v};\n'
         txt += f'goto {f};\n'
         txt += f'{v}:\n'
 
