@@ -46,7 +46,7 @@ from Instruccion.Continue import Continue
 from Expresion.Literal import Literal
 from Simbolo.Tipo import *
 from Expresion.Aritmetica import Aritmetica
-from Reporte.Reportes import generarReporteSimbolos, generarReporteErrores
+from Reporte.Reportes import generarReporteSimbolos, generarReporteErrores, generarReporteSimbolosC3D
 
 input = ""
 
@@ -679,6 +679,9 @@ def traducirC3D(entrada, C3D):
     env = Entorno("Global", None)
     for i in resultado:
         i.traducir(env, C3D)
+
+    generarReporteSimbolosC3D()
+    # generarReporteErrores()
 
 if __name__ == '__main__':
     f = open("./entrada1.txt", "r")

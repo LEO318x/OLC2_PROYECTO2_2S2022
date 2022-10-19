@@ -1,6 +1,6 @@
 from Abstract.Instruccion import Instruccion
 from Error.Error import Error
-from Reporte.Reportes import lsimbolos, lerrores
+from Reporte.Reportes import lsimbolos, lerrores, lsimbolosc3d
 from Simbolo.Simbolo import C3D_Value
 from Simbolo.Tipo import TIPO_DATO
 
@@ -98,7 +98,7 @@ class Declaracion_Tipo(Instruccion):
         val = self.valor.ejecutar(entorno)
         # print(f'dec_tipo_ejec: {val.tipo}, -> {self.tipo}')
         if val.tipo == self.tipo:
-            lsimbolos.append((self.id, "Variable", self.tipo, entorno.nombre, self.fila, self.columna))
+            lsimbolosc3d.append((self.id, "Variable", self.tipo, entorno.nombre, self.fila, self.columna))
             entorno.guardar_var_tipo(self.id, val.valor, self.tipo, self.mutable)
         else:
             print(
@@ -110,7 +110,7 @@ class Declaracion_Tipo(Instruccion):
         # print(f'Decla: {type(self.valor)}')
         val = self.valor.traducir(entorno, C3D)
         # print(f'Decla: {val.tipo}')
-        lsimbolos.append((self.id, "Variable", self.tipo, entorno.nombre, self.fila, self.columna))
+        lsimbolosc3d.append((self.id, "Variable", self.tipo, entorno.nombre, self.fila, self.columna))
         print(f'Decla: {val.tipo}')
         C3D.comentario("Inicio Declaracion")
         if self.tipo == TIPO_DATO.INTEGER or self.tipo == TIPO_DATO.FLOAT:

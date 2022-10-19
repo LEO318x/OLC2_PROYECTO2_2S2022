@@ -146,6 +146,14 @@ class Print(Instruccion):
                             C3D.agregar_string(temp, tmp_expre.valor)
                             C3D.agregar_codigo(f't0 = {temp};')
                             C3D.agregar_codigo(f'imprimir();')
+                    elif tmp_expre.tipo == TIPO_DATO.ARRAY:
+                        print(f'Arr {tmp_expre.tamanio}')
+
+                        C3D.agregar_codigo(f't9 = {tmp_expre.tamanio};')
+                        C3D.agregar_codigo(f't10 = {tmp_expre.valor};')
+                        C3D.agregar_codigo(f'print_arr();')
+                        C3D.agregar_codigo(f'printf("%c", (int)10);')
+                        C3D.agregar_codigo(f'printf("%c", (int)13);')
 
                     if i == len(tmpls)-1:
                         print(f'final {lstring[i+1]}')
@@ -154,6 +162,8 @@ class Print(Instruccion):
                         C3D.agregar_string(t, lstring[i+1])
                         C3D.agregar_codigo(f't0 = {t};')
                         C3D.agregar_codigo(f'imprimir();')
+
+
 
                 C3D.agregar_codigo(f'printf("%c", (int)10);')
                 C3D.agregar_codigo(f'printf("%c", (int)13);')

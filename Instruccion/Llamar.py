@@ -33,11 +33,10 @@ class Llamar(Instruccion):
         print(f'func3d {func}')
         if func != None:
             nuevoEntorno = Entorno(self.id, entorno.getGlobal())
-            C3D.agregar_codigo(f'void {self.id}()'+'{')
+
 
             tmpauxpar = ""
             for i in range(len(self.parametros)):
-
                 valor = self.parametros[i].traducir(entorno, C3D)
                 funcparvalor = func.parametros[i].id
                 funcpartipo = func.parametros[i].tipo
@@ -46,7 +45,10 @@ class Llamar(Instruccion):
                 nuevoEntorno.c3d_guardar_var_tipo(funcparvalor, valor.valor, funcpartipo, pos, tamanio)
                 tmpauxpar += f'stack[(int) {pos}] = {valor.valor};\n'
                 print(f'llamar func: valor: {valor.valor}, tipo: {funcpartipo}, pos: {pos}')
+
+            C3D.agregar_codigo(f'void {self.id}()' + '{')
             func.sentencia.traducir(nuevoEntorno, C3D)
+            C3D.agregar_codigo('return;')
             C3D.agregar_codigo('}')
 
             C3D.comentario(f'Inicio llamada a funcion')
