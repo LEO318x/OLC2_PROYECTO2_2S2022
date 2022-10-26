@@ -31,25 +31,21 @@ class If(Instruccion):
                 return self.instruccion_else.ejecutar(nuevoEntorno)
 
     def traducir(self, entorno, C3D):
+        C3D.comentario(f"Inicio If")
+        resultado = None
         nuevoEntorno = Entorno("If", entorno)
         condicion = self.condidcion.traducir(nuevoEntorno, C3D)
-        print(f'traducir_if: {condicion.valor}')
-        print(f'traducir_if: {self.codigo.sentencias}')
-        print(f'traducir_else: {self.instruccion_else}')
 
-        l_true = C3D.getNuevoL()
-        l_false = C3D.getNuevoL()
-        l_salida = C3D.getNuevoL()
-        #if condicion.valor and self.codigo.sentencias is not None:
-        C3D.agregarTraduccion(f'if ({condicion.valor}) goto L{l_true};')
-        C3D.agregarTraduccion(f'goto L{l_false};')
-        C3D.agregarTraduccion(f'L{l_true}:')
-        self.codigo.traducir(nuevoEntorno, C3D)
-        C3D.agregarTraduccion(f'goto L{l_salida};')
-        #else:
+        print(f'If: {condicion.valor} true: {condicion.true_label} false: {condicion.false_label}')
+
+        salida = C3D.nuevo_label()
+        C3D.agregar_label(condicion.true_label)
+        resultado = self.codigo.traducir(nuevoEntorno, C3D)
+        print(f'if resultado {resultado}')
+        C3D.agregar_goto(salida)
+        C3D.agregar_label(condicion.false_label)
         if self.instruccion_else:
-            C3D.agregarTraduccion(f'L{l_false}:')
-            self.instruccion_else.traducir(nuevoEntorno, C3D)
-        else:
-            C3D.agregarTraduccion(f'L{l_false}:')
-        C3D.agregarTraduccion(f'L{l_salida}:')
+            resultado = self.instruccion_else.traducir(nuevoEntorno, C3D)
+        C3D.agregar_label(salida)
+        C3D.comentario(f"Fin If")
+        return None

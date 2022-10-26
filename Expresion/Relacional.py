@@ -1,5 +1,6 @@
 from Abstract.Expresion import Expresion
 from Abstract.Retorno import Retorno
+from Simbolo.Simbolo import C3D_Value
 from Simbolo.Tipo import TIPO_RELACIONAL, TIPO_DATO
 
 
@@ -39,33 +40,74 @@ class Relacional(Expresion):
         valorDer = self.exprDer.traducir(entorno, C3D)
 
         if TIPO_RELACIONAL.MAYOR == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} > {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
-        if TIPO_RELACIONAL.MENOR == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} < {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
-        if TIPO_RELACIONAL.MAYORIGUAL == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} >= {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
-        if TIPO_RELACIONAL.MENORIGUAL == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} <= {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
-        if TIPO_RELACIONAL.IGUALACION == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} == {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
-        if TIPO_RELACIONAL.DISTINTO == self.tipo_operacion:
-            t_actual = C3D.getT()
-            C3D.sumarT()
-            C3D.agregarTraduccion(f't{t_actual} = {valorIzq.valor} != {valorDer.valor};')
-            return Retorno(f't{t_actual}', TIPO_DATO.BOOL)
+            temp = C3D.nueva_temporal()
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
 
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, ">", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+
+        elif TIPO_RELACIONAL.MENOR == self.tipo_operacion:
+            temp = C3D.nueva_temporal()
+
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
+
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, "<", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+
+        elif TIPO_RELACIONAL.MAYORIGUAL == self.tipo_operacion:
+            temp = C3D.nueva_temporal()
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
+
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, ">=", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+
+        elif TIPO_RELACIONAL.MENORIGUAL == self.tipo_operacion:
+            temp = C3D.nueva_temporal()
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
+
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, "<=", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+
+        elif TIPO_RELACIONAL.IGUALACION == self.tipo_operacion:
+            temp = C3D.nueva_temporal()
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
+
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, "==", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)
+
+        elif TIPO_RELACIONAL.DISTINTO == self.tipo_operacion:
+            temp = C3D.nueva_temporal()
+            truelabel = C3D.nuevo_label()
+            falselabel = C3D.nuevo_label()
+
+            C3D.agregar_if(valorIzq.valor, valorDer.valor, "!=", truelabel)
+            C3D.agregar_goto(falselabel)
+            if valorIzq.valor < valorDer.valor:
+                return C3D_Value(1, False, TIPO_DATO.BOOL, truelabel, falselabel)
+            else:
+                return C3D_Value(0, False, TIPO_DATO.BOOL, truelabel, falselabel)

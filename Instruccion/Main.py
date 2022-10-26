@@ -10,6 +10,6 @@ class Main(Instruccion):
         for m in self.linstrucciones:
             m.ejecutar(entorno)
 
-    def traducir(self, entorno, entornoC3D):
+    def traducir(self, entorno, C3D):
         for m in self.linstrucciones:
-            m.traducir(entorno, entornoC3D)
+            m.traducir(entorno, C3D)
