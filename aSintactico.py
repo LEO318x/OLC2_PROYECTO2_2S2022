@@ -46,7 +46,8 @@ from Instruccion.Continue import Continue
 from Expresion.Literal import Literal
 from Simbolo.Tipo import *
 from Expresion.Aritmetica import Aritmetica
-from Reporte.Reportes import generarReporteSimbolos, generarReporteErrores, generarReporteSimbolosC3D
+from Reporte.Reportes import generarReporteSimbolos, generarReporteErrores, generarReporteSimbolosC3D, \
+    generarReporteOptimizacionC3D
 
 input = ""
 
@@ -681,6 +682,7 @@ def traducirC3D(entrada, C3D):
         i.traducir(env, C3D)
 
     generarReporteSimbolosC3D()
+    generarReporteOptimizacionC3D()
     # generarReporteErrores()
 
 if __name__ == '__main__':

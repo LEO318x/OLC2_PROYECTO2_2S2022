@@ -5,6 +5,7 @@ from Abstract.Retorno import Retorno
 from Error.Error import Error
 from Reporte.Reportes import lerrores
 from Simbolo.Simbolo import C3D_Value
+from Reporte.Reportes import loptimizacion
 from Simbolo.Tipo import *
 
 
@@ -98,18 +99,31 @@ class Aritmetica(Expresion):
         nueva_temp = C3D.nueva_temporal()
         if TIPO_DATO.INTEGER == valorIzq.tipo and TIPO_DATO.INTEGER == valorDer.tipo:
             if TIPO_OPERACION.SUMA == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} + {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} + {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "+")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.RESTA == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} - {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} - {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "-")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MULTI == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} * {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} * {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "*")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.DIV == self.tipo_operacion:
                 if valorDer.valor == "0":
                     lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'No se puede dividir entre 0'))
                     print(f'No se puede dividir entre 0 >:(')
+
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} / {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} / {valorDer.valor};', self.fila))
 
                 sal = C3D.nuevo_label()
                 v = C3D.nuevo_label()
@@ -132,22 +146,38 @@ class Aritmetica(Expresion):
 
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} % {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} % {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
         elif TIPO_DATO.FLOAT == valorIzq.tipo and TIPO_DATO.FLOAT == valorDer.tipo:
             if TIPO_OPERACION.SUMA == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} + {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} + {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "+")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.RESTA == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} - {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} - {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "-")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.MULTI == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} * {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} * {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, valorIzq.valor, valorDer.valor, "*")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
             elif TIPO_OPERACION.DIV == self.tipo_operacion:
                 if valorDer.valor == "0":
                     lerrores.append(Error(self.fila, self.columna, entorno.nombre, 'No se puede dividir entre 0'))
                     print(f'No se puede dividir entre 0 >:(')
+
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} / {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} / {valorDer.valor};', self.fila))
 
                 sal = C3D.nuevo_label()
                 v = C3D.nuevo_label()
@@ -170,6 +200,9 @@ class Aritmetica(Expresion):
 
                 return C3D_Value(nueva_temp, True, TIPO_DATO.FLOAT, "", "")
             elif TIPO_OPERACION.MOD == self.tipo_operacion:
+                if valorIzq.istemp is False and valorDer.istemp is False:
+                    ta = f't{C3D.get_t()-2} = {valorIzq.valor}; <br> {nueva_temp} = t{C3D.get_t()-2} % {valorDer.valor};'
+                    loptimizacion.append(("Bloque", "Regla 4", ta, f'{nueva_temp} = {valorIzq.valor} % {valorDer.valor};', self.fila))
                 C3D.agregar_expresion(nueva_temp, f'(int){valorIzq.valor}', f'(int){valorDer.valor}', "%")
                 return C3D_Value(nueva_temp, True, TIPO_DATO.INTEGER, "", "")
         elif TIPO_DATO.STRING == valorIzq.tipo or TIPO_DATO.RSTR == valorDer.tipo:

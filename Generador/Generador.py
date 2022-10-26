@@ -1,6 +1,6 @@
 class Generador:
     def __init__(self):
-        # t15
+        # t16
         # L17
         self.temporal = 20
         self.label = 20
@@ -18,6 +18,9 @@ class Generador:
 
     def get_codigo(self):
         return self.codigo
+
+    def get_t(self):
+        return self.temporal
 
     def sumar_stack(self):
         temp = self.S

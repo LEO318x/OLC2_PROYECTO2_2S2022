@@ -146,6 +146,8 @@ class Print(Instruccion):
                             C3D.agregar_string(temp, tmp_expre.valor)
                             C3D.agregar_codigo(f't0 = {temp};')
                             C3D.agregar_codigo(f'imprimir();')
+                    elif tmp_expre.tipo == TIPO_DATO.FUNC:
+                        print(f'Imprimo la función :v')
                     elif tmp_expre.tipo == TIPO_DATO.ARRAY:
                         print(f'Arr {tmp_expre.tamanio}')
 

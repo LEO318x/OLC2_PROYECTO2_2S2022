@@ -14,7 +14,7 @@ class Ventana:
         self.master.title("OLC2_Proyecto1_2S2022")
 
         # Tamaño de nuestra ventana
-        self.window_width = 1280
+        self.window_width = 1300
         self.window_height = 720
 
         # Obtenemos la dimención de la pantalla
@@ -41,10 +41,10 @@ class Ventana:
         self.btnAnalizar = Button(self.frmAnalisis, text='Analizar', width=10, command=self.fncAnalizar)
         self.btnAnalizar.grid(row=0, column=2, pady=80, sticky='N')
 
-        self.btnC3D = Button(self.frmAnalisis, text='C3D', width=10, command=self.fncC3D)
+        self.btnC3D = Button(self.frmAnalisis, text='C3D \n y \n Optimización', width=10, command=self.fncC3D)
         self.btnC3D.grid(row=0, column=2, pady=140, sticky='N')
 
-
+        # Salida frame
         self.txtSalida = Text(self.frmAnalisis, width=72, height=13, wrap=NONE, borderwidth=0)
         self.txtSalida.grid(row=0, column=3, padx=10, pady=5, sticky='NSWE')
         textVsb = Scrollbar(self.frmAnalisis, orient="vertical", command=self.txtSalida.yview)
@@ -62,13 +62,6 @@ class Ventana:
         editorMenu = Menu(menu, tearoff=0)
         editorMenu.add_command(label='Analisis', command=self.analisis_gui)
         menu.add_cascade(label='Editor', menu=editorMenu)
-
-        reportesMenu = Menu(menu, tearoff=0)
-        reportesMenu.add_command(label='Reporte de simbolos', command='')
-        reportesMenu.add_command(label='Reporte de errores', command='')
-        reportesMenu.add_command(label='Reporte de base de datos', command='')
-        reportesMenu.add_command(label='Reporte de tablas de base de datos', command='')
-        menu.add_cascade(label='Reportes.py', menu=reportesMenu)
 
         ayudaMenu = Menu(menu, tearoff=0)
         ayudaMenu.add_command(label='Acerca de', command=self.acerca_de)
@@ -115,7 +108,12 @@ class Ventana:
         traducirC3D(txt, C3D)
         self.txtSalida.insert(INSERT, C3D.generar_salida())
 
-
+    def fncOptimizarC3D(self):
+        self.txtSalida.delete(1.0, tkinter.END)
+        txt = self.txtEntrada.get('1.0', 'end-1c')
+        C3D = Generador()
+        traducirC3D(txt, C3D)
+        self.txtSalida.insert(INSERT, C3D.generar_salida())
 
     @staticmethod
     def acerca_de():
